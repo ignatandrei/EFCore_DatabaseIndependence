@@ -13,8 +13,16 @@ public class MongoEfCorePlugin : IEFCore_DatabasePlugin_10
     public DbContextOptionsBuilder<T> GenerateDbContextOptionsBuilder<T>(string connectionString,string? databaseName =null)
         where T : DbContext
     {
-        DbContextOptionsBuilder<T> dbContextOptionsBuilder= new ();
-        dbContextOptionsBuilder= dbContextOptionsBuilder.UseMongoDB(connectionString,databaseName);
-        return dbContextOptionsBuilder;
+        return UsePlugin(new DbContextOptionsBuilder<T>(), connectionString, databaseName);
+    }
+
+    public DbContextOptionsBuilder<T> UsePlugin<T>(DbContextOptionsBuilder<T> optionBuilder, string connectionString, string? databaseName = null) where T : DbContext
+    {
+        if(string.IsNullOrWhiteSpace(databaseName))
+        {
+            databaseName = "PleaseProvideADatabaseName";
+        }
+        optionBuilder = optionBuilder.UseMongoDB(connectionString, databaseName);
+        return optionBuilder;
     }
 }

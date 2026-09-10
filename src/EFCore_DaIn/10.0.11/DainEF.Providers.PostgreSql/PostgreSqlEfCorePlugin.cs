@@ -14,15 +14,18 @@ public sealed class PostgreSqlEfCorePlugin : IEFCore_DatabasePlugin_10
     public DbContextOptionsBuilder<T> GenerateDbContextOptionsBuilder<T>(string connectionString, string? databaseName = null)
         where T : DbContext
     {
+        return UsePlugin(new DbContextOptionsBuilder<T>(), connectionString, databaseName);
+    }
+
+    public DbContextOptionsBuilder<T> UsePlugin<T>(DbContextOptionsBuilder<T> optionBuilder, string connectionString, string? databaseName = null) where T : DbContext
+    {
         if (!string.IsNullOrWhiteSpace(databaseName))
         {
             NpgsqlConnectionStringBuilder sb = new(connectionString);
             sb.Database = databaseName;
             connectionString = sb.ConnectionString;
         }
-
-        DbContextOptionsBuilder<T> dbContextOptionsBuilder = new();
-        dbContextOptionsBuilder = dbContextOptionsBuilder.UseNpgsql(connectionString);
-        return dbContextOptionsBuilder;
+        optionBuilder = optionBuilder.UseNpgsql(connectionString);
+        return optionBuilder;
     }
 }

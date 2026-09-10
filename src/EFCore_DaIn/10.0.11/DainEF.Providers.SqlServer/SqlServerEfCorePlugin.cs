@@ -14,14 +14,20 @@ public sealed class SqlServerEfCorePlugin : IEFCore_DatabasePlugin_10
     public DbContextOptionsBuilder<T> GenerateDbContextOptionsBuilder<T>(string connectionString,string? databaseName =null)
         where T : DbContext
     {
-        if(!string.IsNullOrWhiteSpace(databaseName) )
+        
+        return UsePlugin(new DbContextOptionsBuilder<T>(), connectionString, databaseName);
+    }
+
+    public DbContextOptionsBuilder<T> UsePlugin<T>(DbContextOptionsBuilder<T> optionBuilder, string connectionString, string? databaseName = null) where T : DbContext
+    {
+        if (!string.IsNullOrWhiteSpace(databaseName))
         {
             SqlConnectionStringBuilder sb = new(connectionString);
             sb.InitialCatalog = databaseName;
             connectionString = sb.ConnectionString;
         }
-        DbContextOptionsBuilder<T> dbContextOptionsBuilder= new ();
-        dbContextOptionsBuilder= dbContextOptionsBuilder.UseSqlServer(connectionString);
-        return dbContextOptionsBuilder;
+        optionBuilder = optionBuilder.UseSqlServer(connectionString);
+        return optionBuilder;
+
     }
 }

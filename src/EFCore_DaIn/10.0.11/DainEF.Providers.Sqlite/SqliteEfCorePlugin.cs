@@ -21,8 +21,18 @@ public sealed class SqliteEfCorePlugin : IEFCore_DatabasePlugin_10
             connectionString = sb.ConnectionString;
         }
 
-        DbContextOptionsBuilder<T> dbContextOptionsBuilder = new();
-        dbContextOptionsBuilder = dbContextOptionsBuilder.UseSqlite(connectionString);
-        return dbContextOptionsBuilder;
+        return UsePlugin(new DbContextOptionsBuilder<T>(), connectionString, databaseName);
+    }
+
+    public DbContextOptionsBuilder<T> UsePlugin<T>(DbContextOptionsBuilder<T> optionBuilder, string connectionString, string? databaseName = null) where T : DbContext
+    {
+        if (!string.IsNullOrWhiteSpace(databaseName))
+        {
+            SqliteConnectionStringBuilder sb = new(connectionString);
+            sb.DataSource = databaseName;
+            connectionString = sb.ConnectionString;
+        }
+        optionBuilder = optionBuilder.UseSqlite(connectionString);
+        return optionBuilder;
     }
 }
