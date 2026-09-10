@@ -1,7 +1,6 @@
 ﻿using DainEF.Providers.SqlServer;
 using DotNet.Testcontainers.Containers;
 using EFCore_DaIn_10;
-using Testcontainers.MongoDb;
 using WebAPI.Models;
 
 namespace EFCore_Dain_Test;

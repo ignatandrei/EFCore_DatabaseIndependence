@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/10.0.11/">
     <Project Path="10.0.11/DainEF.Providers.Mongo/DainEF.Providers.Mongo.csproj" Id="39a28d5c-8878-402d-9455-36032e108450" />
+    <Project Path="10.0.11/DainEF.Providers.PostgreSql/DainEF.Providers.PostgreSql.csproj" Id="e4de72d7-6618-4f48-b837-98e43013b8b0" />
     <Project Path="10.0.11/DainEF.Providers.SqlServer/DainEF.Providers.SqlServer.csproj" Id="39e920c8-c1bc-463c-a9ed-a16bda16a703" />
     <Project Path="10.0.11/EFCore_DaIn_10/EFCore_DaIn_10.csproj" />
   </Folder>
