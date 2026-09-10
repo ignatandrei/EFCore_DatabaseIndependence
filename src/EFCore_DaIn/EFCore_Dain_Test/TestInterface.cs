@@ -1,5 +1,6 @@
 ﻿using DainEF.Providers.Mongo;
 using DainEF.Providers.PostgreSql;
+using DainEF.Providers.Sqlite;
 using DainEF.Providers.SqlServer;
 using EFCore_DaIn;
 
@@ -17,6 +18,8 @@ public class TestInterface
         plugin = new MongoEfCorePlugin();
         Assert.Equal(version, plugin.Version);
         plugin = new PostgreSqlEfCorePlugin();
+        Assert.Equal(version, plugin.Version);
+        plugin = new SqliteEfCorePlugin();
         Assert.Equal(version, plugin.Version);
     }
 }
