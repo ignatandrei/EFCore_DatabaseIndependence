@@ -26,7 +26,7 @@ public abstract partial class DatabaseContainerTest : IAsyncLifetime
         var cn = _dockerContainer.GetConnectionString();
         var optBuilder = plugin.GenerateDbContextOptionsBuilder<EmpContext>(cn, "EmpContextDatabase");
         var opt = optBuilder.Options;
-        EmpContext context = new EmpContext(opt);
+        using EmpContext context = new EmpContext(opt);
         context.Database.EnsureCreated();
 
         var nrDatabasesAfter = NrDatabases(_dockerContainer.GetConnectionString());

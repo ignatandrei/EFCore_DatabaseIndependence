@@ -35,7 +35,7 @@ public sealed class MongoDbDefaultConfiguration : MongoTest
     public MongoDbDefaultConfiguration()
         : base(
               new MongoDbBuilder("mongo:8.3")
-              .WithUsername(UserName).WithUsername(Password)
+              .WithUsername(UserName).WithPassword(Password)
               .Build())
     {
     }
