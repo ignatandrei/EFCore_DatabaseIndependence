@@ -1,0 +1,66 @@
+{
+  "generatedAt": "2026-09-11T20:28:44.5773057+03:00",
+  "configuration": "Release",
+  "runtimes": [
+    "win-x64",
+    "linux-x64"
+  ],
+  "providers": [
+    {
+      "name": "DainEF.Providers.Mongo",
+      "project": "src/EFCore_DaIn/10.0.11/DainEF.Providers.Mongo/DainEF.Providers.Mongo.csproj",
+      "runtimes": [
+        {
+          "rid": "win-x64",
+          "zip": "DainEF.Providers.Mongo/win-x64.zip"
+        },
+        {
+          "rid": "linux-x64",
+          "zip": "DainEF.Providers.Mongo/linux-x64.zip"
+        }
+      ]
+    },
+    {
+      "name": "DainEF.Providers.PostgreSql",
+      "project": "src/EFCore_DaIn/10.0.11/DainEF.Providers.PostgreSql/DainEF.Providers.PostgreSql.csproj",
+      "runtimes": [
+        {
+          "rid": "win-x64",
+          "zip": "DainEF.Providers.PostgreSql/win-x64.zip"
+        },
+        {
+          "rid": "linux-x64",
+          "zip": "DainEF.Providers.PostgreSql/linux-x64.zip"
+        }
+      ]
+    },
+    {
+      "name": "DainEF.Providers.Sqlite",
+      "project": "src/EFCore_DaIn/10.0.11/DainEF.Providers.Sqlite/DainEF.Providers.Sqlite.csproj",
+      "runtimes": [
+        {
+          "rid": "win-x64",
+          "zip": "DainEF.Providers.Sqlite/win-x64.zip"
+        },
+        {
+          "rid": "linux-x64",
+          "zip": "DainEF.Providers.Sqlite/linux-x64.zip"
+        }
+      ]
+    },
+    {
+      "name": "DainEF.Providers.SqlServer",
+      "project": "src/EFCore_DaIn/10.0.11/DainEF.Providers.SqlServer/DainEF.Providers.SqlServer.csproj",
+      "runtimes": [
+        {
+          "rid": "win-x64",
+          "zip": "DainEF.Providers.SqlServer/win-x64.zip"
+        },
+        {
+          "rid": "linux-x64",
+          "zip": "DainEF.Providers.SqlServer/linux-x64.zip"
+        }
+      ]
+    }
+  ]
+}
