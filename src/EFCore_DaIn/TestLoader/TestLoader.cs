@@ -7,7 +7,9 @@ public class TestLoader
     [Fact]
     public async Task TestLoad10()
     {
-        ProvidersIndexLoaders loaders = new ("http://localhost:53732");
+        //https://ignatandrei.github.io/
+        //dotnet serve -p 51031
+        ProvidersIndexLoaders loaders = new ("http://localhost:51031");
         var result=await loaders.LoadFromUrlAsync(cancellationToken: TestContext.Current.CancellationToken);
         Assert.True(result != null);
         Assert.True(result.Providers?.Count > 0);

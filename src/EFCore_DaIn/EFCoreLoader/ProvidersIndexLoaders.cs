@@ -37,11 +37,6 @@ public class ProvidersIndexLoaders(string url)
     public async Task<string> SaveProviderFromUrl(RuntimeEntry runtimeEntry, CancellationToken cancellationToken = default)
     {
         string providerDirectory = Path.Combine(PluginsDirectory, runtimeEntry.Name!);
-        //if (Directory.Exists(providerDirectory))
-        //{
-        //    return providerDirectory;
-        //}
-
         if (!Directory.Exists(providerDirectory))
         {
             Directory.CreateDirectory(providerDirectory);
@@ -52,7 +47,7 @@ public class ProvidersIndexLoaders(string url)
     
         try
         {
-            var zipUrl =runtimeEntry.Zip??"";
+            var zipUrl =existingProviders[0] + (runtimeEntry.Zip??"");
             zipUrl = zipUrl.Replace("\\", "/");
             zipUrl = zipUrl.Replace("//", "/");
             Console.WriteLine("Downloading provider zip file from: " + zipUrl);
@@ -70,6 +65,8 @@ public class ProvidersIndexLoaders(string url)
         }
         return providerDirectory;
     }
+    static string[] existingProviders = ["EFCore_DatabaseIndependence/providers10.0.11/"];
+
     public async Task<ProvidersIndex?> LoadFromUrlAsync(CancellationToken cancellationToken = default)
     {
         var httpClient = new HttpClient();
@@ -77,7 +74,7 @@ public class ProvidersIndexLoaders(string url)
 
         try
         {
-            var urlJson = "providers.json";
+            var urlJson =existingProviders[0] + "providers.json";
             Console.WriteLine("Loading providers index from: " + urlJson);
             using var resp = await httpClient.GetAsync(urlJson, cancellationToken).ConfigureAwait(false);
             resp.EnsureSuccessStatusCode();
