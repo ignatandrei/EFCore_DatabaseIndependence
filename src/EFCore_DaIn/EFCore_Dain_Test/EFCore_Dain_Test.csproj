@@ -28,14 +28,11 @@
     <ProjectReference Include="..\10.0.11\DainEF.Providers.PostgreSql\DainEF.Providers.PostgreSql.csproj" />
     <ProjectReference Include="..\10.0.11\DainEF.Providers.Sqlite\DainEF.Providers.Sqlite.csproj" />
     <ProjectReference Include="..\10.0.11\DainEF.Providers.SqlServer\DainEF.Providers.SqlServer.csproj" />
+    <ProjectReference Include="..\SampleDatabase\SampleDatabase.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="Xunit" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="EF\" />
   </ItemGroup>
 
 </Project>

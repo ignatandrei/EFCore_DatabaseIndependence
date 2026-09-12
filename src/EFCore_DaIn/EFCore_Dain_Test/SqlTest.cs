@@ -5,7 +5,7 @@ using DotNet.Testcontainers.Containers;
 using Microsoft.Data.SqlClient;
 using MongoDB.Driver;
 using Testcontainers.MsSql;
-using WebAPI.Models;
+using SampleDatabase;
 
 namespace EFCore_Dain_Test;
 

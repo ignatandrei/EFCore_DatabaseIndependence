@@ -6,6 +6,9 @@
     <Project Path="10.0.11/DainEF.Providers.SqlServer/DainEF.Providers.SqlServer.csproj" Id="39e920c8-c1bc-463c-a9ed-a16bda16a703" />
     <Project Path="10.0.11/EFCore_DaIn_10/EFCore_DaIn_10.csproj" />
   </Folder>
+  <Project Path="EFCoreLoader/EFCoreLoader.csproj" Id="a2d25978-b92c-48cb-bb94-71c2c283d7fd" />
   <Project Path="EFCore_DaIn/EFCore_DaIn.csproj" />
   <Project Path="EFCore_Dain_Test/EFCore_Dain_Test.csproj" Id="e91360c1-fe8c-444f-980d-82d7a07cfb30" />
+  <Project Path="SampleDatabase/SampleDatabase.csproj" Id="d96aa14c-0c03-4419-9e4e-8b0a6957ab04" />
+  <Project Path="TestLoader/TestLoader.csproj" Id="0761e1d0-487e-4a30-a684-1f850f6d8163" />
 </Solution>

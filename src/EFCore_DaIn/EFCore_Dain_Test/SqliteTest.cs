@@ -1,7 +1,7 @@
 using DainEF.Providers.Sqlite;
 using Microsoft.Data.Sqlite;
 using System.Data;
-using WebAPI.Models;
+using SampleDatabase;
 
 namespace EFCore_Dain_Test;
 

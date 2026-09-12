@@ -2,7 +2,7 @@ using DainEF.Providers.PostgreSql;
 using DotNet.Testcontainers.Containers;
 using Npgsql;
 using Testcontainers.PostgreSql;
-using WebAPI.Models;
+using SampleDatabase;
 
 namespace EFCore_Dain_Test;
 
