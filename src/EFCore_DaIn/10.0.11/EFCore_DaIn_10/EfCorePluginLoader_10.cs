@@ -20,21 +20,15 @@ public static class EfCorePluginSharedTypes_10
     ];
 }
 
-public sealed class EfCorePluginLoadResult_10 : IDisposable
+public sealed class EfCorePluginLoadResult_10 
 {
-    public EfCorePluginLoadResult_10(PluginLoader loader, IReadOnlyList<IEFCore_DatabasePlugin_10> plugins)
+    public EfCorePluginLoadResult_10(IReadOnlyList<IEFCore_DatabasePlugin_10> plugins)
     {
-        Loader = loader;
         Plugins = plugins;
     }
 
-    public PluginLoader Loader { get; }
     public IReadOnlyList<IEFCore_DatabasePlugin_10> Plugins { get; }
 
-    public void Dispose()
-    {
-        Loader.Dispose();
-    }
 }
 
 public static class EfCorePluginLoader_10
@@ -93,7 +87,7 @@ public static class EfCorePluginLoader_10
 
     public static EfCorePluginLoadResult_10 LoadFromAssembly(string pluginAssemblyPath, bool isUnloadable = false)
     {
-        var loader = CreateLoader(pluginAssemblyPath, isUnloadable);
+        using var loader = CreateLoader(pluginAssemblyPath, isUnloadable);
         var assembly = loader.LoadDefaultAssembly();
 
         var plugins = assembly
@@ -102,6 +96,6 @@ public static class EfCorePluginLoader_10
             .Select(t => (IEFCore_DatabasePlugin_10)Activator.CreateInstance(t)!)
             .ToArray();
 
-        return new EfCorePluginLoadResult_10(loader, plugins);
+        return new EfCorePluginLoadResult_10(plugins);
     }
 }

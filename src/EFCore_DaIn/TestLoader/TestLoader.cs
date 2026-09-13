@@ -77,7 +77,7 @@ public class TestLoader
         var pluginsDirectory = Path.Combine(AppContext.BaseDirectory, "plugins");
         var discoveredAssemblies = EfCorePluginLoader_10.DiscoverPluginAssemblies(pluginsDirectory);
         Assert.True(discoveredAssemblies.Count > 0);
-        foreach(var assembly in discoveredAssemblies)
+        foreach (var assembly in discoveredAssemblies)
         {
             Console.WriteLine($"Discovered assembly: {assembly}");
             Console.WriteLine("-----------------------------------");
@@ -93,8 +93,8 @@ public class TestLoader
                 if (plugin.ProviderName.Contains("sqlite", StringComparison.InvariantCultureIgnoreCase))
                 {
                     string cn = Path.Combine(Path.GetTempPath(), $"efcore_dain_sqlite_{Guid.NewGuid():N}.db");
-                    cn=$"Data Source={cn}";
-                    ef = new EmpContext(plugin.GenerateDbContextOptionsBuilder<EmpContext>(cn, "EmpContext").Options);                    
+                    cn = $"Data Source={cn}";
+                    ef = new EmpContext(plugin.GenerateDbContextOptionsBuilder<EmpContext>(cn, "EmpContext").Options);
                 }
                 else
                 {
@@ -111,10 +111,8 @@ public class TestLoader
                     if (cnt != null) await cnt.DisposeAsync();
                 }
             }
-            loaded.Dispose();
+
         }
-        
-        
     }
 
     private async Task<(DockerContainer cnt, EmpContext ef)> DockerPlugin(IEFCore_DatabasePlugin_10 plugin)
