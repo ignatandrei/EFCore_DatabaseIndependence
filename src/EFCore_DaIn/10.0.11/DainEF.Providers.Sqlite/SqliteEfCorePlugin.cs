@@ -14,13 +14,6 @@ public sealed class SqliteEfCorePlugin : IEFCore_DatabasePlugin_10
     public DbContextOptionsBuilder<T> GenerateDbContextOptionsBuilder<T>(string connectionString, string? databaseName = null)
         where T : DbContext
     {
-        if (!string.IsNullOrWhiteSpace(databaseName))
-        {
-            SqliteConnectionStringBuilder sb = new(connectionString);
-            sb.DataSource = databaseName;
-            connectionString = sb.ConnectionString;
-        }
-
         return UsePlugin(new DbContextOptionsBuilder<T>(), connectionString, databaseName);
     }
 
