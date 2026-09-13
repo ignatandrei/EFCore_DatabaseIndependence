@@ -2,7 +2,7 @@ using DainEF.Providers.PostgreSql;
 using DotNet.Testcontainers.Containers;
 using Npgsql;
 using Testcontainers.PostgreSql;
-using WebAPI.Models;
+using SampleDatabase;
 
 namespace EFCore_Dain_Test;
 
@@ -27,8 +27,8 @@ public class PostgreSqlDefaultConfiguration : PostgreSqlTest
 {
     public PostgreSqlDefaultConfiguration()
         : base(new PostgreSqlBuilder("postgres:17-alpine")
-              .WithUsername("postgres")
-              .WithPassword("Passw0rd!")
+              .WithUsername(UserName)
+              .WithPassword(Password)
               .Build())
     {
     }

@@ -1,7 +1,7 @@
 ﻿using DainEF.Providers.SqlServer;
 using DotNet.Testcontainers.Containers;
 using EFCore_DaIn_10;
-using WebAPI.Models;
+using SampleDatabase;
 
 namespace EFCore_Dain_Test;
 
