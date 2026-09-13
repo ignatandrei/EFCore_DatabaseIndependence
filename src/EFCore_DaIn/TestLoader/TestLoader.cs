@@ -88,8 +88,8 @@ public class TestLoader
         foreach (var assembly in discoveredAssemblies)
         {
             var loaded = EfCorePluginLoader_10.LoadFromAssembly(assembly, isUnloadable: false);
-            Assert.True(loaded.Plugins.Count > 0);
-            foreach (var plugin in loaded.Plugins)
+            Assert.True(loaded.Count > 0);
+            foreach (var plugin in loaded)
             {
                 EmpContext ef;
                 DockerContainer? cnt = null;
