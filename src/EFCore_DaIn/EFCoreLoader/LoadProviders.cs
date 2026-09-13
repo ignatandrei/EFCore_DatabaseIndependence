@@ -40,7 +40,7 @@ public sealed class ProvidersIndex
         if (Providers == null) yield break;
         foreach (var provider in Providers)
         {
-            if (provider.VersionEF == v)
+            if (v.Equals(provider.VersionEF))
             {
                 var runtimeEntry = provider.Runtimes?.Find(r => r.Rid == runtime);
                 if (runtimeEntry == null) continue;
@@ -61,7 +61,7 @@ public sealed class ProvidersIndex
                 versions.Add(provider.VersionEF);
             }
         }
-        return versions.ToArray();
+        return [.. versions];
     }
 }
 

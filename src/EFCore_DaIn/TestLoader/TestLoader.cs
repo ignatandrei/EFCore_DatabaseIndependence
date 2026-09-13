@@ -69,9 +69,9 @@ public class TestLoader
     }
 
     [Fact]
-    public async Task TestLoad11_LoadOnePluginAfterTestLoad10()
+    public async Task TestLoad10_LoadOnePluginAfterTestLoad10()
     {
-        //await TestLoad10();
+        await TestLoad10();
 
 
         var pluginsDirectory = Path.Combine(AppContext.BaseDirectory, "plugins");
@@ -100,10 +100,16 @@ public class TestLoader
                 {
                     (cnt, ef) = await DockerPlugin(plugin);
                 }
-                await ef.Database.EnsureCreatedAsync(TestContext.Current.CancellationToken);
-                var nr = ef.Employee.Count();
-                Assert.Equal(0, nr);
-                if(cnt != null) await cnt.DisposeAsync();
+                try
+                {
+                    await ef.Database.EnsureCreatedAsync(TestContext.Current.CancellationToken);
+                    var nr = ef.Employee.Count();
+                    Assert.Equal(0, nr);
+                }
+                finally
+                {
+                    if (cnt != null) await cnt.DisposeAsync();
+                }
             }
             loaded.Dispose();
         }
