@@ -5,8 +5,11 @@ using SampleDatabase;
 using Testcontainers.MongoDb;
 using Testcontainers.MsSql;
 using Testcontainers.PostgreSql;
+using Xunit.Sdk;
+
 namespace TestLoader;
 
+[Collection("Loader")]
 public class TestLoader
 {
     [Fact]
@@ -14,8 +17,8 @@ public class TestLoader
     {
 
         //dotnet serve -p 51031
-        //ProvidersIndexLoaders loaders = new ("http://localhost:51031");
-        ProvidersIndexLoaders loaders = new("https://ignatandrei.github.io/");
+        ProvidersIndexLoaders loaders = new ("http://localhost:51031");
+        //ProvidersIndexLoaders loaders = new("https://ignatandrei.github.io/");
         var result=await loaders.LoadFromUrlAsync(cancellationToken: TestContext.Current.CancellationToken);
         Assert.True(result != null);
         Assert.True(result.Providers?.Count > 0);
@@ -29,7 +32,7 @@ public class TestLoader
             foreach (var runtime in runtimeOnCurrentOS)
             {
                 // Check if plugin is already downloaded to avoid re-downloading
-                string pluginDirectory = Path.Combine(AppContext.BaseDirectory, "plugins", runtime.Name!);
+                string pluginDirectory = Path.Combine(AppContext.BaseDirectory, "plugins",version.ToString(), runtime.Name!);
                 string extractedPath = Path.Combine(pluginDirectory, runtime.Rid!);
 
                 if (Directory.Exists(extractedPath))
@@ -37,7 +40,7 @@ public class TestLoader
                     Console.WriteLine($"Plugin {runtime.Name} for {runtime.Rid} already downloaded. Skipping...");
                     continue;
                 }
-                await loaders.SaveProviderFromUrl(runtime, cancellationToken: TestContext.Current.CancellationToken);
+                await loaders.SaveProviderFromUrl(runtime,version, cancellationToken: TestContext.Current.CancellationToken);
             }
         }
     }

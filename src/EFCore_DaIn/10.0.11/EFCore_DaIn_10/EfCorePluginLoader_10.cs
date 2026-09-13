@@ -61,7 +61,11 @@ public static class EfCorePluginLoader_10
         {
             return Array.Empty<string>();
         }
-
+        pluginsRootPath= Path.Combine(pluginsRootPath, "10.0.11");
+        if (!Directory.Exists(pluginsRootPath))
+        {
+            return Array.Empty<string>();
+        }
         runtimeFolderName ??= GetCurrentRuntimeFolderName();
 
         var pluginAssemblies = Directory
