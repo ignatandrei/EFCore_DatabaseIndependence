@@ -20,16 +20,6 @@ public static class EfCorePluginSharedTypes_10
     ];
 }
 
-public sealed class EfCorePluginLoadResult_10 
-{
-    public EfCorePluginLoadResult_10(IReadOnlyList<IEFCore_DatabasePlugin_10> plugins)
-    {
-        Plugins = plugins;
-    }
-
-    public IReadOnlyList<IEFCore_DatabasePlugin_10> Plugins { get; }
-
-}
 
 public static class EfCorePluginLoader_10
 {
@@ -61,7 +51,11 @@ public static class EfCorePluginLoader_10
         {
             return Array.Empty<string>();
         }
-
+        pluginsRootPath= Path.Combine(pluginsRootPath, "10.0.11");
+        if (!Directory.Exists(pluginsRootPath))
+        {
+            return Array.Empty<string>();
+        }
         runtimeFolderName ??= GetCurrentRuntimeFolderName();
 
         var pluginAssemblies = Directory
@@ -85,7 +79,7 @@ public static class EfCorePluginLoader_10
             isUnloadable: isUnloadable);
     }
 
-    public static EfCorePluginLoadResult_10 LoadFromAssembly(string pluginAssemblyPath, bool isUnloadable = false)
+    public static IReadOnlyList<IEFCore_DatabasePlugin_10> LoadFromAssembly(string pluginAssemblyPath, bool isUnloadable = false)
     {
         using var loader = CreateLoader(pluginAssemblyPath, isUnloadable);
         var assembly = loader.LoadDefaultAssembly();
@@ -96,6 +90,6 @@ public static class EfCorePluginLoader_10
             .Select(t => (IEFCore_DatabasePlugin_10)Activator.CreateInstance(t)!)
             .ToArray();
 
-        return new EfCorePluginLoadResult_10(plugins);
+        return plugins;
     }
 }

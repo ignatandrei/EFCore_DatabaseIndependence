@@ -34,9 +34,10 @@ public class ProvidersIndexLoaders(string url)
 
         }
     }
-    public async Task<string> SaveProviderFromUrl(RuntimeEntry runtimeEntry, CancellationToken cancellationToken = default)
+    public async Task<string> SaveProviderFromUrl(RuntimeEntry runtimeEntry,Version v, CancellationToken cancellationToken = default)
     {
-        string providerDirectory = Path.Combine(PluginsDirectory, runtimeEntry.Name!);
+        string version=v.ToString();
+        string providerDirectory = Path.Combine(PluginsDirectory, version, runtimeEntry.Name!);
         if (!Directory.Exists(providerDirectory))
         {
             Directory.CreateDirectory(providerDirectory);
@@ -53,11 +54,11 @@ public class ProvidersIndexLoaders(string url)
             Console.WriteLine("Downloading provider zip file from: " + zipUrl);
             var bytes = await httpClient.GetByteArrayAsync(zipUrl, cancellationToken).ConfigureAwait(false);
             var ms = new MemoryStream(bytes);
-            var fileZip = Path.Combine(PluginsDirectory, runtimeEntry.Zip!);   
+            var fileZip = Path.Combine(PluginsDirectory,version, runtimeEntry.Zip!);   
             await   File.WriteAllBytesAsync(fileZip, bytes, cancellationToken).ConfigureAwait(false);
             Console.WriteLine("Downloaded provider zip file to: " + fileZip);
             ZipArchive z = new(ms);
-            await z.ExtractToDirectoryAsync(Path.Combine(providerDirectory, runtimeEntry.Rid!), true, cancellationToken).ConfigureAwait(false);
+            await z.ExtractToDirectoryAsync(Path.Combine(providerDirectory,runtimeEntry.Rid!), true, cancellationToken).ConfigureAwait(false);
         }
         finally
         {
