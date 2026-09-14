@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace SampleDatabase;
+ 
 
+[RSCG_DBContext.GenerateDbContextExists]
 public partial class EmpContext : DbContext
 {
     public EmpContext()
