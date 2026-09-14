@@ -1,6 +1,7 @@
 ﻿using DotNet.Testcontainers.Containers;
 using EFCore_DaIn_10;
 using EFCoreLoader;
+using Microsoft.EntityFrameworkCore;
 using SampleDatabase;
 using Testcontainers.MongoDb;
 using Testcontainers.MsSql;
@@ -17,8 +18,8 @@ public class TestLoader
     {
 
         //dotnet serve -p 51031
-        ProvidersIndexLoaders loaders = new ("http://localhost:51031");
-        //ProvidersIndexLoaders loaders = new("https://ignatandrei.github.io/");
+        //ProvidersIndexLoaders loaders = new ("http://localhost:51031");
+        ProvidersIndexLoaders loaders = new("https://ignatandrei.github.io/");
         var result=await loaders.LoadFromUrlAsync(cancellationToken: TestContext.Current.CancellationToken);
         Assert.True(result != null);
         Assert.True(result.Providers?.Count > 0);
@@ -108,6 +109,8 @@ public class TestLoader
                     await ef.Database.EnsureCreatedAsync(TestContext.Current.CancellationToken);
                     var nr = ef.Employee.Count();
                     Assert.Equal(0, nr);
+                    var notTablesFound = ef.Problem_DBSets().ToArray();
+                    Assert.Empty(notTablesFound);
                 }
                 finally
                 {

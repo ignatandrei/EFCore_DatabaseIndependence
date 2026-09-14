@@ -31,6 +31,8 @@ public abstract partial class DatabaseContainerTest : IAsyncLifetime
 
         var nrDatabasesAfter = NrDatabases(_dockerContainer.GetConnectionString());
         Assert.Equal(nrDatabasesBefore + 1, nrDatabasesAfter);
+        var notTablesFound= context.Problem_DBSets().ToArray();
+        Assert.Empty(notTablesFound);
 
     }
     [Fact]
