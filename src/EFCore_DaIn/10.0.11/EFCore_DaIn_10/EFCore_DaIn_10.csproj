@@ -4,17 +4,27 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>EFCore_DaIn_10</PackageId>
+    <Version>10.0.11</Version>
+    <Authors>ignatandrei</Authors>
+    <Description>EF Core 10 contracts and plugin loader for dynamically loaded database providers.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/ignatandrei/EFCore_DatabaseIndependence</RepositoryUrl>
+    <PackageTags>efcore;entity-framework-core;database;plugin;provider;net10</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
-  
 	<ItemGroup>
 		<PackageReference Include="McMaster.NETCore.Plugins" Version="2.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="10.0.11" />
 	</ItemGroup>
 
-  
 	<ItemGroup>
 	  <ProjectReference Include="..\..\EFCore_DaIn\EFCore_DaIn.csproj" />
 	</ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 </Project>

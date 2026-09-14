@@ -2,6 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>EFCore_DaIn</PackageId>
+    <Version>10.0.11</Version>
+    <Authors>ignatandrei</Authors>
+    <Description>Shared contracts for dynamically loaded EF Core database provider plugins.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/ignatandrei/EFCore_DatabaseIndependence</RepositoryUrl>
+    <PackageTags>efcore;entity-framework-core;database;plugin;provider</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
 </Project>
