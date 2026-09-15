@@ -19,8 +19,8 @@ public class TestLoader
     {
 
         //dotnet serve -p 51031
-        ProvidersIndexLoaders loaders = new ("http://localhost:51031");
-        //ProvidersIndexLoaders loaders = new("https://ignatandrei.github.io/");
+        //ProvidersIndexLoaders loaders = new ("http://localhost:51031");
+        ProvidersIndexLoaders loaders = new("https://ignatandrei.github.io/");
         var result=await loaders.LoadFromUrlAsync(cancellationToken: TestContext.Current.CancellationToken);
         Assert.True(result != null);
         Assert.True(result.Providers?.Count > 0);
@@ -131,9 +131,9 @@ public class TestLoader
         data.ConnectionString = "fake";
         data.DatabaseName= "fakeAgain";
 
-        var b = await EfCorePluginLoader_10.SaveChoosenPlugin(data);
+        var b = await EfCorePluginLoader_10.SaveChosenPlugin(data);
         Assert.True(b,"must have saved");
-        var (plugin,dataDain) = await EfCorePluginLoader_10.RetrieveLatestChoosenPlugin();
+        var (plugin,dataDain) = await EfCorePluginLoader_10.RetrieveLatestChosenPlugin();
         Assert.NotNull(plugin);
         Assert.NotNull(dataDain);
         Assert.Equal(plugin.ProviderName, data.PluginName);
