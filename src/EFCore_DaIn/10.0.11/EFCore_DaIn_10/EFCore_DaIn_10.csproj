@@ -22,6 +22,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\EFCore_DaIn\EFCore_DaIn.csproj" />
+	  <ProjectReference Include="..\..\EFCore_Dain_Settings\EFCore_Dain_Settings.csproj" />
 	</ItemGroup>
 
   <ItemGroup>

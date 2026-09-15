@@ -1,4 +1,5 @@
 using EFCore_DaIn;
+using EFCore_Dain_Settings;
 using McMaster.NETCore.Plugins;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -16,8 +17,8 @@ public static class EfCorePluginSharedTypes_10
         typeof(DbContext),
         typeof(DbContextOptions),
         typeof(DbContextOptionsBuilder),
-        typeof(IDbContextOptions)
-    ];
+        typeof(IDbContextOptions),
+      ];
 }
 
 
@@ -43,6 +44,33 @@ public static class EfCorePluginLoader_10
         throw new PlatformNotSupportedException("Unsupported OS platform.");
     }
 
+    public static async Task<bool> SaveChoosenPlugin(IDainEF_Data dainEF, string? pluginsDirectory= null,IDainEF_Data_CR? cr= null)
+    {
+        cr ??= new DainEF_Data_CR(pluginsDirectory);
+        return await cr.Save(dainEF);
+    }
+
+    public static async Task<(IEFCore_DatabasePlugin_10?,IDainEF_Data?)> RetrieveLatestChoosenPlugin(string? pluginsDirectory=null, IDainEF_Data_CR? cr = null)
+    {
+        pluginsDirectory ??= Path.Combine(AppContext.BaseDirectory, "plugins");
+        cr ??= new DainEF_Data_CR(pluginsDirectory);
+        var data= await cr.Retrieve();
+        if (data == null) return (null,null);
+        
+        var discoveredAssemblies = EfCorePluginLoader_10.DiscoverPluginAssemblies(pluginsDirectory);
+        foreach (var assembly in discoveredAssemblies)
+        {
+            var loaded = LoadFromAssembly(assembly, isUnloadable: false);
+            foreach (var plugin in loaded)
+            {
+                if (string.Equals(plugin.ProviderName, data.PluginName)) return (plugin,data);
+            }
+        }
+        return (null,data);
+
+
+
+    }
     public static IReadOnlyList<string> DiscoverPluginAssemblies(string pluginsRootPath, string? runtimeFolderName = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(pluginsRootPath);
