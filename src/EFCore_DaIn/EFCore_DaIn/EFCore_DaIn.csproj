@@ -10,6 +10,7 @@
     <RepositoryUrl>https://github.com/ignatandrei/EFCore_DatabaseIndependence</RepositoryUrl>
     <PackageTags>efcore;entity-framework-core;database;plugin;provider</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

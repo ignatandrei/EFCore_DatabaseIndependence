@@ -8,6 +8,7 @@
   </Folder>
   <Project Path="EFCoreLoader/EFCoreLoader.csproj" Id="a2d25978-b92c-48cb-bb94-71c2c283d7fd" />
   <Project Path="EFCore_DaIn/EFCore_DaIn.csproj" />
+  <Project Path="EFCore_Dain_Settings/EFCore_Dain_Settings.csproj" Id="bb66c2d0-9484-4249-94cb-283b081dfdb3" />
   <Project Path="EFCore_Dain_Test/EFCore_Dain_Test.csproj" Id="e91360c1-fe8c-444f-980d-82d7a07cfb30" />
   <Project Path="SampleDatabase/SampleDatabase.csproj" Id="d96aa14c-0c03-4419-9e4e-8b0a6957ab04" />
   <Project Path="TestLoader/TestLoader.csproj" Id="0761e1d0-487e-4a30-a684-1f850f6d8163" />

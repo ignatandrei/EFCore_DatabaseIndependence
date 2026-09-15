@@ -1,4 +1,5 @@
 ﻿using EFCore_DaIn;
+using EFCore_Dain_Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Reflection.PortableExecutable;
@@ -32,8 +33,7 @@ public interface IEFCore_DatabasePlugin : IDatabasePlugin
     /// <param name="databaseName">database name, optional</param>
     /// <returns></returns>
     DbContextOptionsBuilder<T>  UsePlugin<T>(DbContextOptionsBuilder<T> optionBuilder,string connectionString, string? databaseName = null)
-        where T : DbContext;    
-
+        where T : DbContext;
 }
 public interface IEFCore_DatabasePlugin_10 : IEFCore_DatabasePlugin
 {

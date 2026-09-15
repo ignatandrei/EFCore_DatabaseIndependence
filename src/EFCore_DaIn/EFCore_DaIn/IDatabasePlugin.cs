@@ -1,4 +1,6 @@
-﻿namespace EFCore_DaIn
+﻿using System.Threading.Tasks;
+
+namespace EFCore_DaIn
 {
 
     public interface IDatabasePlugin
@@ -12,6 +14,6 @@
         /// <summary>Version of the plugin, e.g. "10.0.0".</summary>
         string Version { get; }
     }
-
+    
 }
 

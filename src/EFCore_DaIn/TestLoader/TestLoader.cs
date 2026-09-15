@@ -1,5 +1,6 @@
 ﻿using DotNet.Testcontainers.Containers;
 using EFCore_DaIn_10;
+using EFCore_Dain_Settings;
 using EFCoreLoader;
 using Microsoft.EntityFrameworkCore;
 using SampleDatabase;
@@ -18,8 +19,8 @@ public class TestLoader
     {
 
         //dotnet serve -p 51031
-        //ProvidersIndexLoaders loaders = new ("http://localhost:51031");
-        ProvidersIndexLoaders loaders = new("https://ignatandrei.github.io/");
+        ProvidersIndexLoaders loaders = new ("http://localhost:51031");
+        //ProvidersIndexLoaders loaders = new("https://ignatandrei.github.io/");
         var result=await loaders.LoadFromUrlAsync(cancellationToken: TestContext.Current.CancellationToken);
         Assert.True(result != null);
         Assert.True(result.Providers?.Count > 0);
@@ -120,7 +121,28 @@ public class TestLoader
 
         }
     }
+    [Fact]
+    public async Task TestLoad10_SaveAndRetrievePlugin()
+    {
+        await TestLoad10();
 
+        DainEF_Data data =new DainEF_Data();
+        data.PluginName = "MongoDB";
+        data.ConnectionString = "fake";
+        data.DatabaseName= "fakeAgain";
+
+        var b = await EfCorePluginLoader_10.SaveChoosenPlugin(data);
+        Assert.True(b,"must have saved");
+        var (plugin,dataDain) = await EfCorePluginLoader_10.RetrieveLatestChoosenPlugin();
+        Assert.NotNull(plugin);
+        Assert.NotNull(dataDain);
+        Assert.Equal(plugin.ProviderName, data.PluginName);
+        Assert.Equal(dataDain.PluginName, data.PluginName);
+        Assert.Equal(dataDain.ConnectionString, data.ConnectionString);
+        Assert.Equal(dataDain.DatabaseName, data.DatabaseName);
+
+
+    }
     private async Task<(DockerContainer cnt, EmpContext ef)> DockerPlugin(IEFCore_DatabasePlugin_10 plugin)
     {
         var cnt = StartDockerContainer(plugin.ProviderName);
