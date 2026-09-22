@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>EFCore_DaIn_10</PackageId>
-    <Version>10.0.11.10922</Version>
+    <Version>10.0.11.10923</Version>
     <Authors>ignatandrei</Authors>
     <Description>EF Core 10 contracts and plugin loader for dynamically loaded database providers.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
