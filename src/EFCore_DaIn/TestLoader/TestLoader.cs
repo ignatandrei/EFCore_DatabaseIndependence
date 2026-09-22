@@ -1,7 +1,7 @@
 ﻿using DotNet.Testcontainers.Containers;
 using EFCore_DaIn_10;
 using EFCore_Dain_Settings;
-using EFCoreLoader;
+using EFCore_DaInLoader;
 using Microsoft.EntityFrameworkCore;
 using SampleDatabase;
 using Testcontainers.MongoDb;
