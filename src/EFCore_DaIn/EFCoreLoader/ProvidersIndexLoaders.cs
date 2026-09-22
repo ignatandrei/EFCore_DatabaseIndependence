@@ -1,7 +1,7 @@
 ﻿using System.IO.Compression;
 using System.Text.Json;
 
-namespace EFCore_DaInLoader;
+namespace EFCoreLoader;
 
 public class ProvidersIndexLoaders(string url)
 {
