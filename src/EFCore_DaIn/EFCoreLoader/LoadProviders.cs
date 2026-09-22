@@ -6,7 +6,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EFCoreLoader;
+namespace EFCore_DaInLoader;
 
 public sealed class ProvidersIndex
 {
