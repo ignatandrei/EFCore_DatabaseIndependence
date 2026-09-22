@@ -14,5 +14,8 @@
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
 	  <LangVersion>latest</LangVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
 </Project>
