@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>EFCore_DaIn</PackageId>
-    <Version>10.0.11.10915</Version>
+    <Version>10.0.11.10922</Version>
     <Authors>ignatandrei</Authors>
     <Description>Shared contracts for dynamically loaded EF Core database provider plugins.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

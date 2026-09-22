@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>EFCore_DaIn_10</PackageId>
-    <Version>10.0.11.10915</Version>
+    <Version>10.0.11.10922</Version>
     <Authors>ignatandrei</Authors>
     <Description>EF Core 10 contracts and plugin loader for dynamically loaded database providers.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -18,11 +18,15 @@
 		<PackageReference Include="McMaster.NETCore.Plugins" Version="2.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="10.0.11" />
+		<PackageReference Include="Tenekon.MSBuild.Packaging.ProjectBuildInPackage" Version="2.0.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\EFCore_DaIn\EFCore_DaIn.csproj" />
-	  <ProjectReference Include="..\..\EFCore_Dain_Settings\EFCore_Dain_Settings.csproj" />
+	  <ProjectReference Include="..\..\EFCore_Dain_Settings\EFCore_Dain_Settings.csproj" PrivateAssets="all" />
 	</ItemGroup>
 
   <ItemGroup>

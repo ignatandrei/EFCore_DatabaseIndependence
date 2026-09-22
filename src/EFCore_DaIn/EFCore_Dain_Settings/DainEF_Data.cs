@@ -16,7 +16,7 @@ public class DainEF_Data_CR(string? pluginDir = null) : IDainEF_Data_CR
     public async Task<IDainEF_Data?> Retrieve()
     {
         var file = FileToStore(pluginDir);
-        if (file == null) return null;
+        if (!File.Exists(file)) return null;
         var content = await File.ReadAllTextAsync(file);
         var dain= JsonSerializer.Deserialize<DainEF_Data>(content);
         return dain;

@@ -3,7 +3,19 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+	  <PackageId>EFCore_DaInLoader</PackageId>
     <Nullable>enable</Nullable>
+	  <Version>10.0.11.10922</Version>
+	  <Authors>ignatandrei</Authors>
+	  <Description>Loading all plugins and save to local</Description>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <RepositoryUrl>https://github.com/ignatandrei/EFCore_DatabaseIndependence</RepositoryUrl>
+	  <PackageTags>efcore;entity-framework-core;database;plugin;provider</PackageTags>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <LangVersion>latest</LangVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
 </Project>

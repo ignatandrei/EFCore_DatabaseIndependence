@@ -44,13 +44,13 @@ public static class EfCorePluginLoader_10
         throw new PlatformNotSupportedException("Unsupported OS platform.");
     }
 
-    public static async Task<bool> SaveChoosenPlugin(IDainEF_Data dainEF, string? pluginsDirectory= null,IDainEF_Data_CR? cr= null)
+    public static async Task<bool> SaveChosenPlugin(IDainEF_Data dainEF, string? pluginsDirectory= null,IDainEF_Data_CR? cr= null)
     {
         cr ??= new DainEF_Data_CR(pluginsDirectory);
         return await cr.Save(dainEF);
     }
 
-    public static async Task<(IEFCore_DatabasePlugin_10?,IDainEF_Data?)> RetrieveLatestChoosenPlugin(string? pluginsDirectory=null, IDainEF_Data_CR? cr = null)
+    public static async Task<(IEFCore_DatabasePlugin_10?,IDainEF_Data?)> RetrieveLatestChosenPlugin(string? pluginsDirectory=null, IDainEF_Data_CR? cr = null)
     {
         pluginsDirectory ??= Path.Combine(AppContext.BaseDirectory, "plugins");
         cr ??= new DainEF_Data_CR(pluginsDirectory);
