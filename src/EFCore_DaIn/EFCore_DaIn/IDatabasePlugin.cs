@@ -10,6 +10,12 @@ public interface IDatabasePlugin
 
     /// <summary>Version of the plugin, e.g. "10.0.0".</summary>
     string Version { get; }
+
+    /// <summary>Whether the database requires a server to be running.</summary>
+    bool NeedServer { get; }
+
+    /// <summary>Tests the database connection.</summary>
+    Task<bool> TestConnectionAsync(string connectionString,  CancellationToken cancellationToken = default);
 }
 
 

@@ -11,6 +11,22 @@ public sealed class SqlServerEfCorePlugin : IEFCore_DatabasePlugin_10
 
     string IDatabasePlugin.Description => "SQL Server Entity Framework Core Provider";
 
+    bool IDatabasePlugin.NeedServer => true;
+    async Task<bool> IDatabasePlugin.TestConnectionAsync(string connectionString, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            using var client = new SqlConnection(connectionString);
+            // Test the connection by opening it
+            await client.OpenAsync(cancellationToken);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     public DbContextOptionsBuilder<T> GenerateDbContextOptionsBuilder<T>(string connectionString,string? databaseName =null)
         where T : DbContext
     {
