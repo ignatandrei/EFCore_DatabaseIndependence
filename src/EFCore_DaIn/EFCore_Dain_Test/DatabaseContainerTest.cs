@@ -1,7 +1,7 @@
 ﻿using DainEF.Providers.SqlServer;
 using DotNet.Testcontainers.Containers;
 using EFCore_DaIn_10;
-using WebAPI.Models;
+using SampleDatabase;
 
 namespace EFCore_Dain_Test;
 
@@ -31,6 +31,8 @@ public abstract partial class DatabaseContainerTest : IAsyncLifetime
 
         var nrDatabasesAfter = NrDatabases(_dockerContainer.GetConnectionString());
         Assert.Equal(nrDatabasesBefore + 1, nrDatabasesAfter);
+        var notTablesFound= context.Problem_DBSets().ToArray();
+        Assert.Empty(notTablesFound);
 
     }
     [Fact]

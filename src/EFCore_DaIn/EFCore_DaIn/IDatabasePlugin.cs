@@ -1,4 +1,7 @@
-﻿namespace EFCore_DaIn;
+﻿using System.Threading;
+using System.Threading.Tasks;
+
+namespace EFCore_DaIn;
 
 public interface IDatabasePlugin
 {
@@ -15,7 +18,7 @@ public interface IDatabasePlugin
     bool NeedServer { get; }
 
     /// <summary>Tests the database connection.</summary>
-    Task<bool> TestConnectionAsync(string connectionString,  CancellationToken cancellationToken = default);
+    Task<bool> TestConnectionAsync(string connectionString,  CancellationToken cancellationToken );
 }
 
 

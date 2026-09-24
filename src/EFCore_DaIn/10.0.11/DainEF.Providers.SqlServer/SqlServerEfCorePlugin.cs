@@ -12,7 +12,7 @@ public sealed class SqlServerEfCorePlugin : IEFCore_DatabasePlugin_10
     string IDatabasePlugin.Description => "SQL Server Entity Framework Core Provider";
 
     bool IDatabasePlugin.NeedServer => true;
-    async Task<bool> IDatabasePlugin.TestConnectionAsync(string connectionString, CancellationToken cancellationToken = default)
+    async Task<bool> IDatabasePlugin.TestConnectionAsync(string connectionString, CancellationToken cancellationToken )
     {
         try
         {

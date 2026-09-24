@@ -12,7 +12,7 @@ public class MongoEfCorePlugin : IEFCore_DatabasePlugin_10
     string IDatabasePlugin.Description => "MongoDB Entity Framework Core Provider";
 
     bool IDatabasePlugin.NeedServer => true;
-    async Task<bool> IDatabasePlugin.TestConnectionAsync(string connectionString, CancellationToken cancellationToken = default)
+    async Task<bool> IDatabasePlugin.TestConnectionAsync(string connectionString, CancellationToken cancellationToken )
     {
         try
         {

@@ -8,4 +8,5 @@
   </Folder>
   <Project Path="EFCore_DaIn/EFCore_DaIn.csproj" />
   <Project Path="EFCore_Dain_Test/EFCore_Dain_Test.csproj" Id="e91360c1-fe8c-444f-980d-82d7a07cfb30" />
+  <Project Path="SampleDatabase/SampleDatabase.csproj" Id="d96aa14c-0c03-4419-9e4e-8b0a6957ab04" />
 </Solution>
