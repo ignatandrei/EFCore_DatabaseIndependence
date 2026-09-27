@@ -16,6 +16,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="EFCore_DaIn_10" Version="10.0.11.10925" />
 		<PackageReference Include="Testcontainers.MongoDb" Version="4.15.0" />
 		<PackageReference Include="Testcontainers.MsSql" Version="4.15.0" />
 		<PackageReference Include="Testcontainers.PostgreSql" Version="4.15.0" />
@@ -28,9 +29,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\10.0.11\EFCore_DaIn_10\EFCore_DaIn_10.csproj" />
 	  <ProjectReference Include="..\EFCoreLoader\EFCoreLoader.csproj" />
-	  <ProjectReference Include="..\EFCore_Dain_Settings\EFCore_Dain_Settings.csproj" />
 	  <ProjectReference Include="..\SampleDatabase\SampleDatabase.csproj" />
 	</ItemGroup>
   
