@@ -1,4 +1,5 @@
-﻿using DainEF.Providers.InMemory;
+﻿using DainEF.Providers.FileBaseContext;
+using DainEF.Providers.InMemory;
 using DainEF.Providers.Mongo;
 using DainEF.Providers.PostgreSql;
 using DainEF.Providers.Sqlite;
@@ -17,6 +18,8 @@ public class TestInterface
 
         Assert.Equal(version, plugin.Version);
         plugin = new InMemoryEfCorePlugin();
+        Assert.Equal(version, plugin.Version);
+        plugin = new FileBaseContextEfCorePlugin();
         Assert.Equal(version, plugin.Version);
         plugin = new MongoEfCorePlugin();
         Assert.Equal(version, plugin.Version);
