@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\10.0.11\DainEF.Providers.InMemory\DainEF.Providers.InMemory.csproj" />
     <ProjectReference Include="..\10.0.11\DainEF.Providers.Mongo\DainEF.Providers.Mongo.csproj" />
     <ProjectReference Include="..\10.0.11\DainEF.Providers.PostgreSql\DainEF.Providers.PostgreSql.csproj" />
     <ProjectReference Include="..\10.0.11\DainEF.Providers.Sqlite\DainEF.Providers.Sqlite.csproj" />

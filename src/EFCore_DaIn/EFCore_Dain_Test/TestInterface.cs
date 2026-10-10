@@ -1,4 +1,5 @@
-﻿using DainEF.Providers.Mongo;
+﻿using DainEF.Providers.InMemory;
+using DainEF.Providers.Mongo;
 using DainEF.Providers.PostgreSql;
 using DainEF.Providers.Sqlite;
 using DainEF.Providers.SqlServer;
@@ -14,6 +15,8 @@ public class TestInterface
         string version = "10.0.11";
         IDatabasePlugin plugin = new SqlServerEfCorePlugin();
 
+        Assert.Equal(version, plugin.Version);
+        plugin = new InMemoryEfCorePlugin();
         Assert.Equal(version, plugin.Version);
         plugin = new MongoEfCorePlugin();
         Assert.Equal(version, plugin.Version);
