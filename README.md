@@ -44,6 +44,9 @@ test table creation, inserts, queries, updates, deletes, and connection checks.
 Like SQL Server tests, `OracleTest` inherits `DatabaseContainerTest`, with
 `OracleDefaultConfiguration` supplying the container. Oracle's creation test
 checks tables in the existing user/schema rather than creating another database.
+`DatabaseContainerTest` provides the shared cross-context CRUD test for Oracle,
+SQL Server, PostgreSQL, and both MongoDB configurations. It assigns explicit
+integer keys only when the provider's model does not generate them.
 
 ## FileBaseContext provider
 

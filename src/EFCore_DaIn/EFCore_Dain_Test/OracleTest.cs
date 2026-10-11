@@ -64,54 +64,8 @@ public abstract class OracleTest : DatabaseContainerTest
         Assert.False(await plugin.TestConnectionAsync(builder.ConnectionString, TestContext.Current.CancellationToken));
     }
 
-    [Fact]
-    public async Task CreatesTablesAndPersistsChangesAcrossContexts()
-    {
-        var cancellationToken = TestContext.Current.CancellationToken;
-        var connectionString = _dockerContainer.GetConnectionString();
-        var dataSource = new OracleConnectionStringBuilder(connectionString).DataSource;
-        var options = _plugin.GenerateDbContextOptionsBuilder<EmpContext>(connectionString, dataSource).Options;
-
-        using (var context = new EmpContext(options))
-        {
-            Assert.True(await context.Database.EnsureCreatedAsync(cancellationToken));
-            var department = new Department { Name = "Engineering" };
-            context.Department.Add(department);
-            Assert.Equal(1, await context.SaveChangesAsync(cancellationToken));
-            Assert.True(department.Id > 0);
-            context.Employee.Add(new Employee
-            {
-                Name = "Alex",
-                Iddepartment = department.Id,
-                IddepartmentNavigation = department
-            });
-            Assert.Equal(1, await context.SaveChangesAsync(cancellationToken));
-        }
-
-        using (var context = new EmpContext(options))
-        {
-            var employee = await context.Employee.Include(e => e.IddepartmentNavigation).SingleAsync(cancellationToken);
-            Assert.Equal("Alex", employee.Name);
-            Assert.Equal("Engineering", employee.IddepartmentNavigation.Name);
-            Assert.Equal(employee.IddepartmentNavigation.Id, employee.Iddepartment);
-            employee.Name = "Alex Updated";
-            Assert.Equal(1, await context.SaveChangesAsync(cancellationToken));
-        }
-
-        using (var context = new EmpContext(options))
-        {
-            var employee = await context.Employee.SingleAsync(cancellationToken);
-            Assert.Equal("Alex Updated", employee.Name);
-            context.Employee.Remove(employee);
-            Assert.Equal(1, await context.SaveChangesAsync(cancellationToken));
-            context.Department.Remove(await context.Department.SingleAsync(cancellationToken));
-            Assert.Equal(1, await context.SaveChangesAsync(cancellationToken));
-        }
-
-        using var emptyContext = new EmpContext(options);
-        Assert.Empty(await emptyContext.Employee.ToListAsync(cancellationToken));
-        Assert.Empty(await emptyContext.Department.ToListAsync(cancellationToken));
-    }
+    protected override string GetCrudDatabaseName(string connectionString)
+        => new OracleConnectionStringBuilder(connectionString).DataSource;
 }
 
 public sealed class OracleDefaultConfiguration : OracleTest
