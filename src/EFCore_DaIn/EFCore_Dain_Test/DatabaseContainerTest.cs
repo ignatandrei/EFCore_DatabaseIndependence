@@ -19,7 +19,7 @@ public abstract partial class DatabaseContainerTest : IAsyncLifetime
         _dockerContainer = dockerContainer;
         this.plugin = plugin;
     }
-    public abstract int NrDatabases(string connectionString);
+    public abstract Task<int> NrDatabases(string connectionString, CancellationToken cancellationToken);
 
     protected virtual string GetCrudDatabaseName(string connectionString) => "EmpContextCrudDatabase";
 
@@ -83,27 +83,28 @@ public abstract partial class DatabaseContainerTest : IAsyncLifetime
     }
 
     [Fact]
-    public virtual void GenerateDatabase()
+    public virtual async Task GenerateDatabase()
     {
-        var nrDatabasesBefore = NrDatabases(_dockerContainer.GetConnectionString());
+        var cancellationToken = TestContext.Current.CancellationToken;
+        var nrDatabasesBefore = await NrDatabases(_dockerContainer.GetConnectionString(), cancellationToken);
 
         var cn = _dockerContainer.GetConnectionString();
         var optBuilder = plugin.GenerateDbContextOptionsBuilder<EmpContext>(cn, "EmpContextDatabase");
         var opt = optBuilder.Options;
         using EmpContext context = new EmpContext(opt);
-        context.Database.EnsureCreated();
+        await context.Database.EnsureCreatedAsync(cancellationToken);
 
-        var nrDatabasesAfter = NrDatabases(_dockerContainer.GetConnectionString());
+        var nrDatabasesAfter = await NrDatabases(_dockerContainer.GetConnectionString(), cancellationToken);
         Assert.Equal(nrDatabasesBefore + 1, nrDatabasesAfter);
         var notTablesFound= context.Problem_DBSets().ToArray();
         Assert.Empty(notTablesFound);
 
     }
     [Fact]
-    public void ConnectionStateReturnsOpen()
+    public virtual async Task ConnectionStateReturnsOpen()
     {
         Console.WriteLine("!!!" + _dockerContainer.GetConnectionString());
-        var nrDatabasesBefore = NrDatabases(_dockerContainer.GetConnectionString());
+        var nrDatabasesBefore = await NrDatabases(_dockerContainer.GetConnectionString(), TestContext.Current.CancellationToken);
         Assert.True(nrDatabasesBefore > 0);
     }
 

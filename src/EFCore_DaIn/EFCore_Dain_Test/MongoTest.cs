@@ -13,16 +13,21 @@ public abstract class MongoTest : DatabaseContainerTest
     {
 
     }
-    public override int NrDatabases(string connectionString)
+    public override async Task<int> NrDatabases(string connectionString, CancellationToken cancellationToken)
     {
         // Given
-        var client = new MongoClient(_dockerContainer.GetConnectionString());
+        var client = new MongoClient(connectionString);
 
         // When
-        using var databases = client.ListDatabases(CancellationToken.None);
+        using var databases = await client.ListDatabasesAsync(cancellationToken);
 
         // Then
-        return databases.ToEnumerable(CancellationToken.None).Count();
+        var count = 0;
+        while (await databases.MoveNextAsync(cancellationToken))
+        {
+            count += databases.Current.Count();
+        }
+        return count;
     }
 
 
@@ -47,4 +52,3 @@ public sealed class MongoDbNoAuthConfiguration : MongoTest
     {
     }
 }
-

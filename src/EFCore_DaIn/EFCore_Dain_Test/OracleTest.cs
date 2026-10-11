@@ -17,30 +17,31 @@ public abstract class OracleTest : DatabaseContainerTest
     {
     }
 
-    public override int NrDatabases(string connectionString)
+    public override async Task<int> NrDatabases(string connectionString, CancellationToken cancellationToken)
     {
         using var connection = new OracleConnection(connectionString);
-        connection.Open();
+        await connection.OpenAsync(cancellationToken);
         using var command = connection.CreateCommand();
         command.CommandText = "SELECT COUNT(*) FROM all_users";
-        return Convert.ToInt32(command.ExecuteScalar());
+        return Convert.ToInt32(await command.ExecuteScalarAsync(cancellationToken));
     }
 
     [Fact]
-    public override void GenerateDatabase()
+    public override async Task GenerateDatabase()
     {
+        var cancellationToken = TestContext.Current.CancellationToken;
         var connectionString = _dockerContainer.GetConnectionString();
         var dataSource = new OracleConnectionStringBuilder(connectionString).DataSource;
         var options = _plugin.GenerateDbContextOptionsBuilder<EmpContext>(connectionString, dataSource).Options;
         using var context = new EmpContext(options);
 
-        Assert.True(context.Database.EnsureCreated());
+        Assert.True(await context.Database.EnsureCreatedAsync(cancellationToken));
 
         using var connection = new OracleConnection(connectionString);
-        connection.Open();
+        await connection.OpenAsync(cancellationToken);
         using var command = connection.CreateCommand();
         command.CommandText = "SELECT COUNT(*) FROM user_tables WHERE table_name IN ('Department', 'Employee')";
-        Assert.Equal(2, Convert.ToInt32(command.ExecuteScalar()));
+        Assert.Equal(2, Convert.ToInt32(await command.ExecuteScalarAsync(cancellationToken)));
     }
 
     [Fact]

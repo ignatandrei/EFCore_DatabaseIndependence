@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/10.0.11/">
+    <Project Path="10.0.11/DainEF.Providers.AzureCosmosDB/DainEF.Providers.AzureCosmosDB.csproj" />
     <Project Path="10.0.11/DainEF.Providers.FileBaseContext/DainEF.Providers.FileBaseContext.csproj" />
     <Project Path="10.0.11/DainEF.Providers.Mongo/DainEF.Providers.Mongo.csproj" Id="39a28d5c-8878-402d-9455-36032e108450" />
     <Project Path="10.0.11/DainEF.Providers.InMemory/DainEF.Providers.InMemory.csproj" />

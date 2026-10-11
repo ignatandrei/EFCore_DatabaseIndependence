@@ -1,6 +1,47 @@
 # EFCore_DatabaseIndependence
 Database independence with EFCore
 
+## Azure Cosmos DB provider
+
+`DainEF.Providers.AzureCosmosDB` implements `IEFCore_DatabasePlugin_10` using
+`Microsoft.EntityFrameworkCore.Cosmos` 10.0.11 for Azure Cosmos DB for NoSQL.
+Pass an account connection string (`AccountEndpoint=...;AccountKey=...`) and an
+explicit, nonblank `databaseName` to `GenerateDbContextOptionsBuilder` or `UsePlugin`.
+Keep account keys in application configuration or a secret store, not source code.
+The provider uses gateway mode and retains normal HTTPS certificate validation.
+
+```csharp
+using DainEF.Providers.AzureCosmosDB;
+
+var plugin = new AzureCosmosDbEfCorePlugin();
+var options = plugin.GenerateDbContextOptionsBuilder<ApplicationDbContext>(
+    connectionString, "ApplicationDatabase").Options;
+```
+
+`TestConnectionAsync` reads account metadata without creating resources.
+Authentication/service errors return `false`; invalid arguments and cancellation
+propagate as exceptions.
+Models must follow Cosmos conventions: configure containers and partition keys,
+provide IDs, and use embedded owned entities or scalar IDs instead of
+cross-document navigation relationships. Cosmos operations must be asynchronous.
+
+`AzureCosmosDbTest` follows the SQL Server container-test structure and inherits
+the shared CRUD test using `EmpContext` directly. `EmpContext.OnModelCreating`
+configures separate employee and department containers only when
+`Database.IsCosmos()` is true, ignoring navigation properties and retaining their
+scalar relationship IDs. Other providers retain their existing mappings.
+The sample project references the Cosmos package for these mapping APIs.
+Tests use Microsoft's Linux vNext preview emulator over local
+HTTP. The optional `Func<HttpClient>` plugin constructor lets these tests use
+Testcontainers' request-rewriting client for Docker's mapped port. The default
+plugin constructor uses the SDK's normal HTTP client and certificate validation.
+The vNext emulator does not enforce authentication; unauthorized/forbidden
+responses are tested with a controlled HTTP handler, not the emulator.
+
+```powershell
+dotnet test --project .\src\EFCore_DaIn\EFCore_Dain_Test\EFCore_Dain_Test.csproj --filter-class EFCore_Dain_Test.AzureCosmosDbOptionsTest --filter-class EFCore_Dain_Test.AzureCosmosDbDefaultConfiguration
+```
+
 ## Oracle provider
 
 `DainEF.Providers.Oracle` implements `IEFCore_DatabasePlugin_10` using
@@ -45,8 +86,10 @@ Like SQL Server tests, `OracleTest` inherits `DatabaseContainerTest`, with
 `OracleDefaultConfiguration` supplying the container. Oracle's creation test
 checks tables in the existing user/schema rather than creating another database.
 `DatabaseContainerTest` provides the shared cross-context CRUD test for Oracle,
-SQL Server, PostgreSQL, and both MongoDB configurations. It assigns explicit
+Azure Cosmos DB, SQL Server, PostgreSQL, and both MongoDB configurations. It assigns explicit
 integer keys only when the provider's model does not generate them.
+Database-count operations use `Task<int> NrDatabases` with a cancellation token;
+all container tests await the providers' asynchronous database APIs.
 
 ## FileBaseContext provider
 

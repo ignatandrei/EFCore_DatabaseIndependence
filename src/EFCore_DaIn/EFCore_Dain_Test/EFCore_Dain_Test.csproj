@@ -17,6 +17,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Testcontainers.MongoDb" Version="4.15.0" />
+    <PackageReference Include="Testcontainers.CosmosDb" Version="4.15.0" />
     <PackageReference Include="Testcontainers.MsSql" Version="4.15.0" />
     <PackageReference Include="Testcontainers.Oracle" Version="4.15.0" />
     <PackageReference Include="Testcontainers.PostgreSql" Version="4.15.0" />
@@ -26,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\10.0.11\DainEF.Providers.FileBaseContext\DainEF.Providers.FileBaseContext.csproj" />
+    <ProjectReference Include="..\10.0.11\DainEF.Providers.AzureCosmosDB\DainEF.Providers.AzureCosmosDB.csproj" />
     <ProjectReference Include="..\10.0.11\DainEF.Providers.InMemory\DainEF.Providers.InMemory.csproj" />
     <ProjectReference Include="..\10.0.11\DainEF.Providers.Mongo\DainEF.Providers.Mongo.csproj" />
     <ProjectReference Include="..\10.0.11\DainEF.Providers.Oracle\DainEF.Providers.Oracle.csproj" />

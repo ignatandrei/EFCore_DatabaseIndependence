@@ -15,20 +15,16 @@ public abstract class SqlServerTest : DatabaseContainerTest
     {
 
     }
-    public override int  NrDatabases(string sqlConnection) {
+    public override async Task<int> NrDatabases(string sqlConnection, CancellationToken cancellationToken) {
 
         Console.WriteLine("!!!" + sqlConnection);
 
         using var client = new SqlConnection(sqlConnection);
-        client.Open();
+        await client.OpenAsync(cancellationToken);
 
-        // When
-        var nrDatabasesBefore = 0;
         using var cmd = client.CreateCommand();
         cmd.CommandText = "SELECT count(*) FROM sys.databases";
-        nrDatabasesBefore = (int)cmd.ExecuteScalar();
-
-        return nrDatabasesBefore;
+        return Convert.ToInt32(await cmd.ExecuteScalarAsync(cancellationToken));
     }
     
 

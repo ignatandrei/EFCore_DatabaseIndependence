@@ -12,14 +12,14 @@ public abstract class PostgreSqlTest : DatabaseContainerTest
     {
     }
 
-    public override int NrDatabases(string connectionString)
+    public override async Task<int> NrDatabases(string connectionString, CancellationToken cancellationToken)
     {
         using var client = new NpgsqlConnection(connectionString);
-        client.Open();
+        await client.OpenAsync(cancellationToken);
 
         using var cmd = client.CreateCommand();
         cmd.CommandText = "SELECT count(*) FROM pg_database WHERE datistemplate = false";
-        return Convert.ToInt32(cmd.ExecuteScalar());
+        return Convert.ToInt32(await cmd.ExecuteScalarAsync(cancellationToken));
     }
 }
 

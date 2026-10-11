@@ -18,6 +18,30 @@ public partial class EmpContext : DbContext
     {
     }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        if (Database.IsCosmos())
+        {
+            modelBuilder.Entity<Department>(entity =>
+            {
+                entity.Ignore(d => d.Employee);
+                entity.ToContainer("Departments");
+                entity.HasPartitionKey(d => d.Id);
+                entity.Property(d => d.Id).ValueGeneratedNever();
+            });
+            modelBuilder.Entity<Employee>(entity =>
+            {
+                entity.Ignore(e => e.IddepartmentNavigation);
+                entity.ToContainer("Employees");
+                entity.HasPartitionKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedNever();
+            });
+        }
+
+    }
+
     //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     //{
     //    #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
