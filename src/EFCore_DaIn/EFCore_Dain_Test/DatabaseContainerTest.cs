@@ -19,7 +19,7 @@ public abstract partial class DatabaseContainerTest : IAsyncLifetime
     }
     public abstract int NrDatabases(string connectionString);
     [Fact]
-    public void GenerateDatabase()
+    public virtual void GenerateDatabase()
     {
         var nrDatabasesBefore = NrDatabases(_dockerContainer.GetConnectionString());
 

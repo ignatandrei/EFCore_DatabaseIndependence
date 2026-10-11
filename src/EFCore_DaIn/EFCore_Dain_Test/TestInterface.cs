@@ -1,6 +1,7 @@
 ﻿using DainEF.Providers.FileBaseContext;
 using DainEF.Providers.InMemory;
 using DainEF.Providers.Mongo;
+using DainEF.Providers.Oracle;
 using DainEF.Providers.PostgreSql;
 using DainEF.Providers.Sqlite;
 using DainEF.Providers.SqlServer;
@@ -22,6 +23,8 @@ public class TestInterface
         plugin = new FileBaseContextEfCorePlugin();
         Assert.Equal(version, plugin.Version);
         plugin = new MongoEfCorePlugin();
+        Assert.Equal(version, plugin.Version);
+        plugin = new OracleEfCorePlugin();
         Assert.Equal(version, plugin.Version);
         plugin = new PostgreSqlEfCorePlugin();
         Assert.Equal(version, plugin.Version);
