@@ -1,9 +1,7 @@
 using DainEF.Providers.Oracle;
 using DotNet.Testcontainers.Containers;
 using EFCore_DaIn;
-using Microsoft.EntityFrameworkCore;
 using Oracle.ManagedDataAccess.Client;
-using SampleDatabase;
 using Testcontainers.Oracle;
 
 namespace EFCore_Dain_Test;
@@ -27,32 +25,6 @@ public abstract class OracleTest : DatabaseContainerTest
     }
 
     [Fact]
-    public override async Task GenerateDatabase()
-    {
-        var cancellationToken = TestContext.Current.CancellationToken;
-        var connectionString = _dockerContainer.GetConnectionString();
-        var dataSource = new OracleConnectionStringBuilder(connectionString).DataSource;
-        var options = _plugin.GenerateDbContextOptionsBuilder<EmpContext>(connectionString, dataSource).Options;
-        using var context = new EmpContext(options);
-
-        Assert.True(await context.Database.EnsureCreatedAsync(cancellationToken));
-
-        using var connection = new OracleConnection(connectionString);
-        await connection.OpenAsync(cancellationToken);
-        using var command = connection.CreateCommand();
-        command.CommandText = "SELECT COUNT(*) FROM user_tables WHERE table_name IN ('Department', 'Employee')";
-        Assert.Equal(2, Convert.ToInt32(await command.ExecuteScalarAsync(cancellationToken)));
-    }
-
-    [Fact]
-    public async Task ConnectionCheckSucceeds()
-    {
-        IDatabasePlugin plugin = _plugin;
-
-        Assert.True(await plugin.TestConnectionAsync(_dockerContainer.GetConnectionString(), TestContext.Current.CancellationToken));
-    }
-
-    [Fact]
     public async Task ConnectionCheckReturnsFalseForInvalidCredentials()
     {
         var builder = new OracleConnectionStringBuilder(_dockerContainer.GetConnectionString())
@@ -65,8 +37,10 @@ public abstract class OracleTest : DatabaseContainerTest
         Assert.False(await plugin.TestConnectionAsync(builder.ConnectionString, TestContext.Current.CancellationToken));
     }
 
-    protected override string GetCrudDatabaseName(string connectionString)
+    protected override string GetDatabaseName(string connectionString)
         => new OracleConnectionStringBuilder(connectionString).DataSource;
+
+    protected override int ExpectedDatabaseCountIncrease => 0;
 }
 
 public sealed class OracleDefaultConfiguration : OracleTest

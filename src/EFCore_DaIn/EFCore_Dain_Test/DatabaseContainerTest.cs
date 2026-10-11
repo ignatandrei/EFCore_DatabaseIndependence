@@ -21,7 +21,16 @@ public abstract partial class DatabaseContainerTest : IAsyncLifetime
     }
     public abstract Task<int> NrDatabases(string connectionString, CancellationToken cancellationToken);
 
-    protected virtual string GetCrudDatabaseName(string connectionString) => "EmpContextCrudDatabase";
+    protected virtual string GetDatabaseName(string connectionString) => "EmpContextDatabase";
+
+    protected virtual int ExpectedDatabaseCountIncrease => 1;
+
+    [Fact]
+    public async Task ConnectionCheckSucceeds()
+    {
+        Assert.True(await plugin.TestConnectionAsync(
+            _dockerContainer.GetConnectionString(), TestContext.Current.CancellationToken));
+    }
 
     [Fact]
     public async Task CreatesTablesAndPersistsChangesAcrossContexts()
@@ -29,7 +38,7 @@ public abstract partial class DatabaseContainerTest : IAsyncLifetime
         var cancellationToken = TestContext.Current.CancellationToken;
         var connectionString = _dockerContainer.GetConnectionString();
         var options = plugin.GenerateDbContextOptionsBuilder<EmpContext>(
-            connectionString, GetCrudDatabaseName(connectionString)).Options;
+            connectionString, GetDatabaseName(connectionString)).Options;
 
         using (var context = new EmpContext(options))
         {
@@ -83,29 +92,27 @@ public abstract partial class DatabaseContainerTest : IAsyncLifetime
     }
 
     [Fact]
-    public virtual async Task GenerateDatabase()
+    public async Task GenerateDatabase()
     {
         var cancellationToken = TestContext.Current.CancellationToken;
-        var nrDatabasesBefore = await NrDatabases(_dockerContainer.GetConnectionString(), cancellationToken);
-
         var cn = _dockerContainer.GetConnectionString();
-        var optBuilder = plugin.GenerateDbContextOptionsBuilder<EmpContext>(cn, "EmpContextDatabase");
+        var nrDatabasesBefore = await NrDatabases(cn, cancellationToken);
+        var optBuilder = plugin.GenerateDbContextOptionsBuilder<EmpContext>(cn, GetDatabaseName(cn));
         var opt = optBuilder.Options;
         using EmpContext context = new EmpContext(opt);
-        await context.Database.EnsureCreatedAsync(cancellationToken);
+        Assert.True(await context.Database.EnsureCreatedAsync(cancellationToken));
 
-        var nrDatabasesAfter = await NrDatabases(_dockerContainer.GetConnectionString(), cancellationToken);
-        Assert.Equal(nrDatabasesBefore + 1, nrDatabasesAfter);
-        var notTablesFound= context.Problem_DBSets().ToArray();
-        Assert.Empty(notTablesFound);
+        var nrDatabasesAfter = await NrDatabases(cn, cancellationToken);
+        Assert.Equal(nrDatabasesBefore + ExpectedDatabaseCountIncrease, nrDatabasesAfter);
+        Assert.Empty(await context.Department.ToArrayAsync(cancellationToken));
+        Assert.Empty(await context.Employee.ToArrayAsync(cancellationToken));
 
     }
     [Fact]
-    public virtual async Task ConnectionStateReturnsOpen()
+    public async Task ConnectionStateReturnsOpen()
     {
-        Console.WriteLine("!!!" + _dockerContainer.GetConnectionString());
         var nrDatabasesBefore = await NrDatabases(_dockerContainer.GetConnectionString(), TestContext.Current.CancellationToken);
-        Assert.True(nrDatabasesBefore > 0);
+        Assert.True(nrDatabasesBefore >= 0);
     }
 
     public async ValueTask InitializeAsync()

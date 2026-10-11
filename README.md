@@ -83,8 +83,10 @@ The image is maintained by Gerald Venzl, not officially published by Oracle.
 The tests use a disposable database and
 test table creation, inserts, queries, updates, deletes, and connection checks.
 Like SQL Server tests, `OracleTest` inherits `DatabaseContainerTest`, with
-`OracleDefaultConfiguration` supplying the container. Oracle's creation test
-checks tables in the existing user/schema rather than creating another database.
+`OracleDefaultConfiguration` supplying the container. All container providers
+inherit `GenerateDatabase`, which verifies creation and queries both DbSets.
+Oracle supplies its existing data source and expects no increase in schema count;
+other providers expect one new database.
 `DatabaseContainerTest` provides the shared cross-context CRUD test for Oracle,
 Azure Cosmos DB, SQL Server, PostgreSQL, and both MongoDB configurations. It assigns explicit
 integer keys only when the provider's model does not generate them.
