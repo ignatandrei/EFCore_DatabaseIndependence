@@ -1,5 +1,6 @@
 ﻿using DainEF.Providers.AzureCosmosDB;
 using DainEF.Providers.FileBaseContext;
+using DainEF.Providers.DuckDB;
 using DainEF.Providers.InMemory;
 using DainEF.Providers.Mongo;
 using DainEF.Providers.Oracle;
@@ -18,6 +19,8 @@ public class TestInterface
         string version = "10.0.11";
         IDatabasePlugin plugin = new SqlServerEfCorePlugin();
 
+        Assert.Equal(version, plugin.Version);
+        plugin = new DuckDbEfCorePlugin();
         Assert.Equal(version, plugin.Version);
         plugin = new AzureCosmosDbEfCorePlugin();
         Assert.Equal(version, plugin.Version);

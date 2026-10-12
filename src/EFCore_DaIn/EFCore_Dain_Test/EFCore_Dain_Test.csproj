@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\10.0.11\DainEF.Providers.FileBaseContext\DainEF.Providers.FileBaseContext.csproj" />
+    <ProjectReference Include="..\10.0.11\DainEF.Providers.DuckDB\DainEF.Providers.DuckDB.csproj" />
     <ProjectReference Include="..\10.0.11\DainEF.Providers.AzureCosmosDB\DainEF.Providers.AzureCosmosDB.csproj" />
     <ProjectReference Include="..\10.0.11\DainEF.Providers.InMemory\DainEF.Providers.InMemory.csproj" />
     <ProjectReference Include="..\10.0.11\DainEF.Providers.Mongo\DainEF.Providers.Mongo.csproj" />

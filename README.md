@@ -1,6 +1,56 @@
 # EFCore_DatabaseIndependence
 Database independence with EFCore
 
+## Test parallelism
+
+The xUnit test assembly explicitly uses one collection per concrete test class.
+Different classes can run in parallel; tests within the same class run
+sequentially, including inherited tests and theory cases. Concurrency uses
+xUnit's default processor-count limit. This was already xUnit's default behavior;
+the assembly configuration makes the policy explicit.
+Container tests use independent containers, and file-backed tests use unique
+temporary database paths. Running multiple container classes concurrently
+requires sufficient Docker memory and CPU.
+
+## DuckDB provider
+
+`DainEF.Providers.DuckDB` implements `IEFCore_DatabasePlugin_10` using
+skuirrels' community-maintained `DuckDB.EFCoreProvider` 1.27.0 for EF Core 10.
+It includes the forked `Skuirrels.DuckDB.NET.Data.Full` native driver and
+requires no server or Docker container. It is not an official DuckDB-team provider.
+
+```csharp
+using DainEF.Providers.DuckDB;
+using SampleDatabase;
+
+var plugin = new DuckDbEfCorePlugin();
+var options = plugin.GenerateDbContextOptionsBuilder<EmpContext>(
+    "Data Source=employees.duckdb").Options;
+using var context = new EmpContext(options);
+await context.Database.EnsureCreatedAsync();
+```
+
+Like SQLite, the optional `databaseName` overrides the complete database file
+path, not a server-side catalog name. `UsePlugin` configures an existing options
+builder with the same semantics and preserves other connection-string settings.
+`TestConnectionAsync` opens and disposes a native DuckDB connection; opening a
+file-backed database can create the file. DuckDB connection failures return
+`false`; invalid arguments and cancellation propagate.
+
+Use a file-backed database for persistence across contexts. `Data Source=:memory:`
+is connection-scoped and requires keeping the connection open to retain data.
+DuckDB is an embedded analytical engine, not a multi-process concurrent-write
+replacement for SQL Server or PostgreSQL. This plugin uses native DuckDB only;
+DuckLake and experimental Quack profiles are not configured.
+
+Tests use isolated temporary files with `EmpContext`, covering table creation,
+generated keys, relationships, cross-context CRUD, rollback, connection checks,
+file-path overrides, and invalid arguments/cancellation:
+
+```powershell
+dotnet test --project .\src\EFCore_DaIn\EFCore_Dain_Test\EFCore_Dain_Test.csproj --filter-class EFCore_Dain_Test.DuckDbTest
+```
+
 ## Azure Cosmos DB provider
 
 `DainEF.Providers.AzureCosmosDB` implements `IEFCore_DatabasePlugin_10` using
