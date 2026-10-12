@@ -1,11 +1,67 @@
 {
-  "generatedAt": "2026-09-24T19:46:16.6605544+03:00",
+  "generatedAt": "2026-10-12T03:11:03.3699083+03:00",
   "configuration": "Release",
   "runtimes": [
     "win-x64",
     "linux-x64"
   ],
   "providers": [
+    {
+      "name": "DainEF.Providers.AzureCosmosDB",
+      "project": "src/EFCore_DaIn/10.0.11/DainEF.Providers.AzureCosmosDB/DainEF.Providers.AzureCosmosDB.csproj",
+      "runtimes": [
+        {
+          "rid": "win-x64",
+          "zip": "DainEF.Providers.AzureCosmosDB/win-x64.zip"
+        },
+        {
+          "rid": "linux-x64",
+          "zip": "DainEF.Providers.AzureCosmosDB/linux-x64.zip"
+        }
+      ]
+    },
+    {
+      "name": "DainEF.Providers.DuckDB",
+      "project": "src/EFCore_DaIn/10.0.11/DainEF.Providers.DuckDB/DainEF.Providers.DuckDB.csproj",
+      "runtimes": [
+        {
+          "rid": "win-x64",
+          "zip": "DainEF.Providers.DuckDB/win-x64.zip"
+        },
+        {
+          "rid": "linux-x64",
+          "zip": "DainEF.Providers.DuckDB/linux-x64.zip"
+        }
+      ]
+    },
+    {
+      "name": "DainEF.Providers.FileBaseContext",
+      "project": "src/EFCore_DaIn/10.0.11/DainEF.Providers.FileBaseContext/DainEF.Providers.FileBaseContext.csproj",
+      "runtimes": [
+        {
+          "rid": "win-x64",
+          "zip": "DainEF.Providers.FileBaseContext/win-x64.zip"
+        },
+        {
+          "rid": "linux-x64",
+          "zip": "DainEF.Providers.FileBaseContext/linux-x64.zip"
+        }
+      ]
+    },
+    {
+      "name": "DainEF.Providers.InMemory",
+      "project": "src/EFCore_DaIn/10.0.11/DainEF.Providers.InMemory/DainEF.Providers.InMemory.csproj",
+      "runtimes": [
+        {
+          "rid": "win-x64",
+          "zip": "DainEF.Providers.InMemory/win-x64.zip"
+        },
+        {
+          "rid": "linux-x64",
+          "zip": "DainEF.Providers.InMemory/linux-x64.zip"
+        }
+      ]
+    },
     {
       "name": "DainEF.Providers.Mongo",
       "project": "src/EFCore_DaIn/10.0.11/DainEF.Providers.Mongo/DainEF.Providers.Mongo.csproj",
@@ -17,6 +73,20 @@
         {
           "rid": "linux-x64",
           "zip": "DainEF.Providers.Mongo/linux-x64.zip"
+        }
+      ]
+    },
+    {
+      "name": "DainEF.Providers.Oracle",
+      "project": "src/EFCore_DaIn/10.0.11/DainEF.Providers.Oracle/DainEF.Providers.Oracle.csproj",
+      "runtimes": [
+        {
+          "rid": "win-x64",
+          "zip": "DainEF.Providers.Oracle/win-x64.zip"
+        },
+        {
+          "rid": "linux-x64",
+          "zip": "DainEF.Providers.Oracle/linux-x64.zip"
         }
       ]
     },
