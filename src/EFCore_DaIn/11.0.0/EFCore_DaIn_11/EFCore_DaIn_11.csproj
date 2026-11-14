@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+	<TargetFramework>net11.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+	<PackageId>EFCore_DaIn_11</PackageId>
+	<Version>11.0.0</Version>
+	<Authors>ignatandrei</Authors>
+	<Description>EF Core 11 contracts and plugin loader for dynamically loaded database providers.</Description>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<RepositoryUrl>https://github.com/ignatandrei/EFCore_DatabaseIndependence</RepositoryUrl>
+	<PackageTags>efcore;entity-framework-core;database;plugin;provider;net11</PackageTags>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+  <ItemGroup>
+	<PackageReference Include="McMaster.NETCore.Plugins" Version="2.0.0" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore" Version="11.0.0" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="11.0.0" />
+	<PackageReference Include="Tenekon.MSBuild.Packaging.ProjectBuildInPackage" Version="2.0.0">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+	<ProjectReference Include="..\..\EFCore_DaIn\EFCore_DaIn.csproj" />
+	<ProjectReference Include="..\..\EFCore_Dain_Settings\EFCore_Dain_Settings.csproj" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+	<None Include="..\..\..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>

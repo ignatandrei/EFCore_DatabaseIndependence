@@ -1,6 +1,70 @@
 # EFCore_DatabaseIndependence
 Database independence with EFCore
 
+## EF Core 11 support
+
+The existing `src\EFCore_DaIn\EFCore_DaIn10.slnx` now contains both version groups.
+EF Core 10.0.11 projects and tests are retained unchanged. New projects under
+`src\EFCore_DaIn\11.0.0` target `net11.0` and pin Microsoft's EF Core packages
+at **11.0.0**. Building them requires the .NET 11 SDK.
+
+NuGet availability and package dependency metadata checked on **2026-11-14**:
+
+| Plugin | Latest relevant provider package | EF Core 11 project |
+|---|---|---|
+| SQL Server | [Microsoft.EntityFrameworkCore.SqlServer 11.0.0](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.SqlServer/11.0.0) | Added |
+| SQLite | [Microsoft.EntityFrameworkCore.Sqlite 11.0.0](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Sqlite/11.0.0) | Added |
+| InMemory | [Microsoft.EntityFrameworkCore.InMemory 11.0.0](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.InMemory/11.0.0) | Added |
+| Azure Cosmos DB | [Microsoft.EntityFrameworkCore.Cosmos 11.0.0](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Cosmos/11.0.0) | Added |
+| PostgreSQL | [Npgsql.EntityFrameworkCore.PostgreSQL 11.0.0-rc.3](https://www.nuget.org/packages/Npgsql.EntityFrameworkCore.PostgreSQL/11.0.0-rc.3) | Not added: prerelease only; requires exactly EF Core 11.0.0-rc.3.26522.148 |
+| MongoDB | [MongoDB.EntityFrameworkCore 10.0.5](https://www.nuget.org/packages/MongoDB.EntityFrameworkCore/10.0.5) | Not added: no EF Core 11 release |
+| Oracle | [Oracle.EntityFrameworkCore 10.23.26400](https://www.nuget.org/packages/Oracle.EntityFrameworkCore/10.23.26400) | Not added: requires EF Core >= 10.0.0 and < 11.0.0 |
+| DuckDB | [DuckDB.EFCoreProvider 1.28.0](https://www.nuget.org/packages/DuckDB.EFCoreProvider/1.28.0) | Not added: requires EF Core >= 10.0.10 and < 10.1.0 |
+| FileBaseContext | [FileBaseContext 6.0.0](https://www.nuget.org/packages/FileBaseContext/6.0.0) | Not added: targets EF Core 10; no EF Core 11 release |
+
+Only stable EF Core 11-compatible providers are included. A permissive NuGet
+minimum-version dependency alone does not establish cross-major compatibility.
+The table reports upstream availability; it does not upgrade existing EF Core 10 projects.
+
+EF Core 11 plugins implement `EFCore_DaIn_11.IEFCore_DatabasePlugin_11` and report
+`IDatabasePlugin.Version` as `11.0.0`. Their provider namespaces and class names
+match EF Core 10, so reference **one version group per application**, not both.
+The shared EF-independent contracts and settings projects remain reusable.
+`EfCorePluginLoader_11` discovers only
+`plugins\11.0.0\DainEF.Providers.*\<rid>\DainEF.Providers.*.dll` and shares
+EF Core 11 context and plugin contract types. The EF Core 10 loader still uses
+`plugins\10.0.11`.
+
+Connection-string and database-name semantics remain the same. In the new
+SQL Server and SQLite plugins, invalid connection arguments and cancellation
+propagate instead of being swallowed; database connection failures still return
+`false`. EF Core 10 behavior is unchanged. Cosmos retains gateway mode, normal
+certificate validation, and the optional HTTP client factory used by tests.
+
+The separate `EFCore_Dain_Test_11` project replicates the `EFCore_Dain_Test`
+tests for the four supported providers, with EF Core 11 references and namespace.
+It includes the same InMemory and SQLite tests, provider-version assertions,
+assembly parallelism policy, and shared SQL Server/Cosmos container tests for
+connection checks, database creation, and cross-context CRUD. Tests for providers
+without stable EF Core 11 support are excluded. Unused MongoDB imports in the
+SQL Server test and unsupported providers in the version test are omitted.
+`SampleDatabase` remains on `net10.0` with explicit EF Core 10.0.11 packages.
+The separate `SampleDatabase_11` project replicates `EmpContext` and the entities,
+targets `net11.0`, and explicitly references EF Core 11.0.0 packages. It retains
+the `SampleDatabase` namespace so the replicated test code remains unchanged.
+The full suite requires Docker with Linux containers and uses the original
+SQL Server 2022 and Cosmos Linux vNext emulator images.
+
+```powershell
+dotnet test --project .\src\EFCore_DaIn\EFCore_Dain_Test_11\EFCore_Dain_Test_11.csproj
+.\publish-providers.ps1 -EFCoreVersion 11.0.0
+```
+
+Publishing produces `docs\providers11.0.0` archives and a manifest. Extract each
+runtime archive into the versioned plugin directory described above before
+using the loader. The publishing script defaults to EF Core 10.0.11 to preserve
+existing automation.
+
 ## Test parallelism
 
 The xUnit test assembly explicitly uses one collection per concrete test class.

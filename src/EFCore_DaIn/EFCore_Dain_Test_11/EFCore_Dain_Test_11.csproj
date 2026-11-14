@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+	<TargetFramework>net11.0</TargetFramework>
+	<OutputType>Exe</OutputType>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+	<IsPackable>false</IsPackable>
+	<IsTestProject>true</IsTestProject>
+	<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+	<TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+  </PropertyGroup>
+  <ItemGroup>
+	<PackageReference Include="coverlet.collector" Version="10.0.1">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
+	<PackageReference Include="Testcontainers.CosmosDb" Version="4.15.0" />
+	<PackageReference Include="Testcontainers.MsSql" Version="4.15.0" />
+	<PackageReference Include="xunit.v3" Version="3.0.0" />
+	<PackageReference Include="xunit.v3.runner.msbuild" Version="3.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+	<ProjectReference Include="..\11.0.0\DainEF.Providers.AzureCosmosDB\DainEF.Providers.AzureCosmosDB.csproj" />
+	<ProjectReference Include="..\11.0.0\DainEF.Providers.InMemory\DainEF.Providers.InMemory.csproj" />
+	<ProjectReference Include="..\11.0.0\DainEF.Providers.Sqlite\DainEF.Providers.Sqlite.csproj" />
+	<ProjectReference Include="..\11.0.0\DainEF.Providers.SqlServer\DainEF.Providers.SqlServer.csproj" />
+	<ProjectReference Include="..\SampleDatabase_11\SampleDatabase_11.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+	<Using Include="Xunit" />
+  </ItemGroup>
+</Project>

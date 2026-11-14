@@ -2,16 +2,16 @@
 <#
 .SYNOPSIS
     Publishes each EFCore_DaIn database provider (self-contained) for Windows and Linux
-    into docs\providers10.0.11\<ProviderName>\<rid>.
+    into docs\providers<EFCoreVersion>\<ProviderName>\<rid>.
 
 .DESCRIPTION
-    Discovers every DainEF.Providers.* project under src\EFCore_DaIn\10.0.11 and runs
+    Discovers every DainEF.Providers.* project under src\EFCore_DaIn\<EFCoreVersion> and runs
     `dotnet publish` for each one, once per target runtime identifier (win-x64, linux-x64),
     self-contained, placing the output under the repository's docs folder so the published
     binaries can be inspected or distributed per platform. Each publish output folder is then
     compressed into a .zip file, and the uncompressed folder is removed so only the zip remains.
     Finally, a providers.json manifest listing every published provider and its runtime zips
-    is written into the docs\providers10.0.11 folder.
+    is written into the docs\providers<EFCoreVersion> folder.
 
 .PARAMETER Configuration
     Build configuration to publish (default: Release).
@@ -19,21 +19,27 @@
 .PARAMETER Runtimes
     Runtime identifiers to publish for (default: win-x64, linux-x64).
 
+.PARAMETER EFCoreVersion
+    Provider project version to publish (10.0.11 or 11.0.0; default: 10.0.11).
+
 .EXAMPLE
-    ./publish-providers.ps1
-    ./publish-providers.ps1 -Configuration Debug -Runtimes win-x64
+    .\publish-providers.ps1
+    .\publish-providers.ps1 -Configuration Debug -Runtimes win-x64
+    .\publish-providers.ps1 -EFCoreVersion 11.0.0
 #>
 [CmdletBinding()]
 param(
     [string]$Configuration = 'Release',
-    [string[]]$Runtimes = @('win-x64', 'linux-x64')
+    [string[]]$Runtimes = @('win-x64', 'linux-x64'),
+    [ValidateSet('10.0.11', '11.0.0')]
+    [string]$EFCoreVersion = '10.0.11'
 )
 
 $ErrorActionPreference = 'Stop'
 
 $repoRoot = $PSScriptRoot
-$providersRoot = Join-Path $repoRoot 'src\EFCore_DaIn\10.0.11'
-$docsRoot = Join-Path $repoRoot 'docs\providers10.0.11'
+$providersRoot = Join-Path $repoRoot "src\EFCore_DaIn\$EFCoreVersion"
+$docsRoot = Join-Path $repoRoot "docs\providers$EFCoreVersion"
 
 if (-not (Test-Path $providersRoot)) {
     throw "Providers folder not found: $providersRoot"
