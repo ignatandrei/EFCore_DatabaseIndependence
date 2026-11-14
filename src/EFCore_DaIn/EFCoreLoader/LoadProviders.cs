@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace EFCore_DaInLoader;
 
+public class ProvidersVersion : Dictionary<Version, ProvidersIndex>
+{
+
+}
 public sealed class ProvidersIndex
 {
     public DateTimeOffset GeneratedAt { get; set; }

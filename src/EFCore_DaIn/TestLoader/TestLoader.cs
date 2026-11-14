@@ -21,8 +21,9 @@ public class TestLoader
         //dotnet serve -p 51031
         //ProvidersIndexLoaders loaders = new ("http://localhost:51031");
         ProvidersIndexLoaders loaders = new("https://ignatandrei.github.io/");
-        var result=await loaders.LoadFromUrlAsync(cancellationToken: TestContext.Current.CancellationToken);
-        Assert.True(result != null);
+        var results=await loaders.LoadFromUrlAsync(cancellationToken: TestContext.Current.CancellationToken);
+        Assert.True(results != null);
+        var result = results[Version.Parse("10.0.11")];
         Assert.True(result.Providers?.Count > 0);
         var versions = result.VersionsEFCore();
         Assert.True(versions != null);
@@ -103,7 +104,15 @@ public class TestLoader
                 }
                 else
                 {
-                    (cnt, ef) = await DockerPlugin(plugin);
+                    try
+                    {
+                        (cnt, ef) = await DockerPlugin(plugin);
+                    }
+                    catch(NotSupportedException)
+                    {
+                        Console.WriteLine($"Skipping plugin {plugin.ProviderName} as it is not supported on this OS.");
+                        continue;
+                    }
                 }
                 try
                 {

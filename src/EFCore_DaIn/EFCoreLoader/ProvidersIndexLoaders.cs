@@ -46,10 +46,15 @@ public class ProvidersIndexLoaders(string url)
 
         var httpClient = new HttpClient();
         httpClient.BaseAddress = new Uri(url);
-    
+        var requestedProvider = existingProviders.FirstOrDefault(p => VersionFromProvider(p) == v);
+        if (requestedProvider == null)
+        {
+            throw new InvalidOperationException($"No provider found for version {v}");
+        }
+
         try
         {
-            var zipUrl =existingProviders[0] + (runtimeEntry.Zip??"");
+            var zipUrl =requestedProvider + (runtimeEntry.Zip??"");
             zipUrl = zipUrl.Replace("\\", "/");
             zipUrl = zipUrl.Replace("//", "/");
             Console.WriteLine("Downloading provider zip file from: " + zipUrl);
@@ -67,33 +72,52 @@ public class ProvidersIndexLoaders(string url)
         }
         return providerDirectory;
     }
-    static string[] existingProviders = ["EFCore_DatabaseIndependence/providers10.0.11/"];
-
-    public async Task<ProvidersIndex?> LoadFromUrlAsync(CancellationToken cancellationToken = default)
+    static string[] existingProviders = [
+        "EFCore_DatabaseIndependence/providers10.0.11/",
+        "EFCore_DatabaseIndependence/providers11.0.0/",
+    ];
+    private Version VersionFromProvider(string provider)
     {
-        var httpClient = new HttpClient();
-        httpClient.BaseAddress = new Uri(url);
-
-        try
+        string[] parts = provider.Split('/');
+        var v= parts[1].Replace("providers", "");
+        return Version.Parse(v);
+    }   
+    public async Task<ProvidersVersion> LoadFromUrlAsync(CancellationToken cancellationToken = default)
+    {
+        ProvidersVersion providersIndexes = new();
+        foreach (var provider in existingProviders)
         {
-            var urlJson =existingProviders[0] + "providers.json";
-            Console.WriteLine("Loading providers index from: " + urlJson);
-            using var resp = await httpClient.GetAsync(urlJson, cancellationToken).ConfigureAwait(false);
-            resp.EnsureSuccessStatusCode();
-            await using var stream = await resp.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
-
-            var options = new JsonSerializerOptions
+            var httpClient = new HttpClient
             {
-                PropertyNameCaseInsensitive = true,
-                AllowTrailingCommas = true
+                BaseAddress = new Uri(url)
             };
+            try
+            {
 
-            var result = await JsonSerializer.DeserializeAsync<ProvidersIndex>(stream, options, cancellationToken).ConfigureAwait(false);
-            return result;
+                var urlJson = provider + "providers.json";
+                Console.WriteLine("Loading providers index from: " + urlJson);
+                using var resp = await httpClient.GetAsync(urlJson, cancellationToken).ConfigureAwait(false);
+                resp.EnsureSuccessStatusCode();
+                await using var stream = await resp.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                    AllowTrailingCommas = true
+                };
+
+                var result = await JsonSerializer.DeserializeAsync<ProvidersIndex>(stream, options, cancellationToken).ConfigureAwait(false);
+                if (result is not null)
+                {
+                    providersIndexes.Add(VersionFromProvider(provider), result);
+                }
+            }
+            finally
+            {
+                httpClient.Dispose();
+            }
+
         }
-        finally
-        {
-            httpClient.Dispose();
-        }
+        return  providersIndexes ;
     }
 }
