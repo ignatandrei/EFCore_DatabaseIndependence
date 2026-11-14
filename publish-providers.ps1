@@ -32,7 +32,7 @@ param(
     [string]$Configuration = 'Release',
     [string[]]$Runtimes = @('win-x64', 'linux-x64'),
     [ValidateSet('10.0.11', '11.0.0')]
-    [string]$EFCoreVersion = '10.0.11'
+    [string]$EFCoreVersion = '11.0.0'
 )
 
 $ErrorActionPreference = 'Stop'

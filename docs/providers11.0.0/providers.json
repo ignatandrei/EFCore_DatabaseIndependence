@@ -1,0 +1,66 @@
+{
+  "generatedAt": "2026-11-14T20:20:51.3999035+02:00",
+  "configuration": "Release",
+  "runtimes": [
+    "win-x64",
+    "linux-x64"
+  ],
+  "providers": [
+    {
+      "name": "DainEF.Providers.AzureCosmosDB",
+      "project": "src/EFCore_DaIn/11.0.0/DainEF.Providers.AzureCosmosDB/DainEF.Providers.AzureCosmosDB.csproj",
+      "runtimes": [
+        {
+          "rid": "win-x64",
+          "zip": "DainEF.Providers.AzureCosmosDB/win-x64.zip"
+        },
+        {
+          "rid": "linux-x64",
+          "zip": "DainEF.Providers.AzureCosmosDB/linux-x64.zip"
+        }
+      ]
+    },
+    {
+      "name": "DainEF.Providers.InMemory",
+      "project": "src/EFCore_DaIn/11.0.0/DainEF.Providers.InMemory/DainEF.Providers.InMemory.csproj",
+      "runtimes": [
+        {
+          "rid": "win-x64",
+          "zip": "DainEF.Providers.InMemory/win-x64.zip"
+        },
+        {
+          "rid": "linux-x64",
+          "zip": "DainEF.Providers.InMemory/linux-x64.zip"
+        }
+      ]
+    },
+    {
+      "name": "DainEF.Providers.Sqlite",
+      "project": "src/EFCore_DaIn/11.0.0/DainEF.Providers.Sqlite/DainEF.Providers.Sqlite.csproj",
+      "runtimes": [
+        {
+          "rid": "win-x64",
+          "zip": "DainEF.Providers.Sqlite/win-x64.zip"
+        },
+        {
+          "rid": "linux-x64",
+          "zip": "DainEF.Providers.Sqlite/linux-x64.zip"
+        }
+      ]
+    },
+    {
+      "name": "DainEF.Providers.SqlServer",
+      "project": "src/EFCore_DaIn/11.0.0/DainEF.Providers.SqlServer/DainEF.Providers.SqlServer.csproj",
+      "runtimes": [
+        {
+          "rid": "win-x64",
+          "zip": "DainEF.Providers.SqlServer/win-x64.zip"
+        },
+        {
+          "rid": "linux-x64",
+          "zip": "DainEF.Providers.SqlServer/linux-x64.zip"
+        }
+      ]
+    }
+  ]
+}
