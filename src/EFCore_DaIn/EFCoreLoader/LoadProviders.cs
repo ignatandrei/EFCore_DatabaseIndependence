@@ -10,7 +10,16 @@ namespace EFCore_DaInLoader;
 
 public class ProvidersVersion : Dictionary<Version, ProvidersIndex>
 {
+    public ProvidersIndex? FromVersion(string version)
+    {
+        if (!Version.TryParse(version, out var v))
+            return null;
+        
+        if(!TryGetValue(v, out var providersIndex))
+            return null;
 
+        return providersIndex;
+    }
 }
 public sealed class ProvidersIndex
 {
